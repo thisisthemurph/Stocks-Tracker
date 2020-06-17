@@ -9,7 +9,11 @@ interface SearchResult {
 	index: string
 }
 
-const Search: React.FC = () => {
+interface SearchProps {
+	registerSymbol: (symbol: string) => void
+}
+
+const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<SearchResult>>([])
 	const [index, setIndex] = useState(0)
@@ -57,10 +61,16 @@ const Search: React.FC = () => {
 
 				case "Enter":
 					const item = searchResults[index]
-					console.log(`You have selected ${item.shortname}`)
+					registerSymbol(item.symbol)
+					setSearchText("")
 					break
 			}
 		}
+	}
+
+	const handleClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, symbol: string) => {
+		registerSymbol(symbol)
+		setSearchText("")
 	}
 
 	return (
@@ -73,24 +83,32 @@ const Search: React.FC = () => {
 				onChange={handleSearchChange}
 				onKeyDown={handleKeyPress}
 			/>
-			<ul className="search__result-list">
-				{searchResults.map((result, idx) => (
-					<li key={result.symbol} className="search__result">
-						<div
-							className={`result-item${idx === index ? " result-item--active" : ""}`}
-							role="link"
-							title={result.shortname}
-							tabIndex={0}
+			{searchText && (
+				<ul className="search__result-list">
+					{searchResults.map((result, idx) => (
+						<li
+							key={result.symbol}
+							className="search__result"
+							onClick={(e) => handleClick(e, result.symbol)}
 						>
-							<span className="result-item__symbol">{result.symbol}</span>
-							<span className="result-item__name">{result.shortname}</span>
-							<span className="result-item__info">
-								{result.quoteType} - {result.exchange}
-							</span>
-						</div>
-					</li>
-				))}
-			</ul>
+							<div
+								className={`result-item${
+									idx === index ? " result-item--active" : ""
+								}`}
+								role="link"
+								title={result.shortname}
+								tabIndex={0}
+							>
+								<span className="result-item__symbol">{result.symbol}</span>
+								<span className="result-item__name">{result.shortname}</span>
+								<span className="result-item__info">
+									{result.quoteType} - {result.exchange}
+								</span>
+							</div>
+						</li>
+					))}
+				</ul>
+			)}
 		</div>
 	)
 }
