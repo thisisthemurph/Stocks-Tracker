@@ -1,43 +1,23 @@
 import React, { useState } from "react"
+import { Symbol } from "../../types"
+import { search } from "../../api/yahoo-finance"
 import "./Search.scss"
 
-interface SearchResult {
-	exchange: string
-	shortname: string
-	quoteType: string
-	symbol: string
-	index: string
-}
-
 interface SearchProps {
-	registerSymbol: (symbol: string) => void
+	registerSymbol: (symbol: Symbol) => void
 }
 
 const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
-	const [searchResults, setSearchResults] = useState<Array<SearchResult>>([])
+	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
 	const [index, setIndex] = useState(0)
 
 	const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value
 		setSearchText(value)
 
-		if (value.length > 0) {
-			const res = await fetch(`http://localhost:8181/yf/api/finance/search?q=${value}`, {
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-
-			if (res && res.status === 200) {
-				const data = await res.json()
-				setSearchResults(data.results)
-			} else {
-				setSearchResults([])
-			}
-		} else {
-			setSearchResults([])
-		}
+		const results = (await search(value)) as Symbol[]
+		setSearchResults(results)
 	}
 
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,15 +40,15 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 					break
 
 				case "Enter":
-					const item = searchResults[index]
-					registerSymbol(item.symbol)
+					const symbol = searchResults[index]
+					registerSymbol(symbol)
 					setSearchText("")
 					break
 			}
 		}
 	}
 
-	const handleClick = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, symbol: string) => {
+	const handleClick = (symbol: Symbol) => {
 		registerSymbol(symbol)
 		setSearchText("")
 	}
@@ -85,24 +65,24 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 			/>
 			{searchText && (
 				<ul className="search__result-list">
-					{searchResults.map((result, idx) => (
+					{searchResults.map((company, idx) => (
 						<li
-							key={result.symbol}
+							key={company.symbol}
 							className="search__result"
-							onClick={(e) => handleClick(e, result.symbol)}
+							onClick={() => handleClick(company)}
 						>
 							<div
 								className={`result-item${
 									idx === index ? " result-item--active" : ""
 								}`}
 								role="link"
-								title={result.shortname}
+								title={company.shortname}
 								tabIndex={0}
 							>
-								<span className="result-item__symbol">{result.symbol}</span>
-								<span className="result-item__name">{result.shortname}</span>
+								<span className="result-item__symbol">{company.symbol}</span>
+								<span className="result-item__name">{company.shortname}</span>
 								<span className="result-item__info">
-									{result.quoteType} - {result.exchange}
+									{company.quoteType} - {company.exchange}
 								</span>
 							</div>
 						</li>
