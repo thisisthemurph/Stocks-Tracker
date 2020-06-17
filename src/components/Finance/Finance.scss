@@ -1,0 +1,29 @@
+@import "../../variables.scss";
+
+.finance-header {
+    &__heading {
+        font-size: 1.8em;
+        padding-bottom: 0;
+    }
+
+    &__subheading {
+        color: $-c-font-secondary;
+    }
+
+    &__current-price {
+        padding: 0.5em 0;
+        font-size: 2em;
+        font-weight: bold;
+    }
+}
+
+.finance-chart {
+    background: $-c-background-alt;
+    width: 100%;
+    height: 400px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $-c-font-secondary;
+}

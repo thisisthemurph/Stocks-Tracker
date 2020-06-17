@@ -1,11 +1,11 @@
+@import "../../variables.scss";
+
 .search {
     $border-radius: 0em;
-    $-c-font-primary: rgb(196, 196, 196);
-    $-c-font-secondary: rgb(158, 158, 158);
 
     &__input {
         border: none;
-        background: #3b3e42;
+        background: $-c-background-alt;
         color: white;
         font-size: 1.2em;
         padding: 1em;
@@ -17,7 +17,7 @@
     &__result-list {
         list-style: none;
         padding: 0;
-        background: #3b3e42;
+        background: $-c-background-alt;
         font-size: 1em;
         border-radius: $border-radius;
         width: 100%;
@@ -26,7 +26,7 @@
     &__result {
         &:hover,
         &:focus {
-            background: #303133;
+            background: $-c-active;
         }
 
         &:last-child {
@@ -47,7 +47,7 @@
             cursor: pointer;
 
             &--active {
-                background: #303133;
+                background: $-c-active;
             }
 
             &__symbol,
