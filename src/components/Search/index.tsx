@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Symbol, FinanceInfo } from "../../types"
+import { Symbol } from "../../types"
 import { search, getFinanceInfo } from "../../api/yahoo-finance"
 import "./Search.scss"
 
@@ -86,7 +86,18 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 					const symbol = searchResults[index]
 					selectResult(symbol)
 					break
+
+				case "Escape":
+					setSearchResults([])
+					break
 			}
+		}
+	}
+
+	const handleOnBlur = (event: any) => {
+		// If we are clicking outside the target area, clear the results
+		if (!event.currentTarget.contains(event.relatedTarget)) {
+			setSearchResults([])
 		}
 	}
 
@@ -98,7 +109,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	}
 
 	return (
-		<div className="search">
+		<div className="search" onBlur={handleOnBlur}>
 			<input
 				className="search__input"
 				type="search"
