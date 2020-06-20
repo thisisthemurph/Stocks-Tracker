@@ -1,16 +1,56 @@
 import React, { useState } from "react"
-import { Symbol } from "../../types"
-import { search } from "../../api/yahoo-finance"
+import { Symbol, FinanceInfo } from "../../types"
+import { search, getFinanceInfo } from "../../api/yahoo-finance"
 import "./Search.scss"
 
 interface SearchProps {
 	registerSymbol: (symbol: Symbol) => void
 }
 
+const HISTORY_MAX_SIZE = 8
+
 const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
 	const [index, setIndex] = useState(0)
+	const [history, setHistory] = useState<Array<string>>([])
+
+	const addToHistory = (symbol: string) => {
+		let hist = history.slice(0)
+
+		if (hist.includes(symbol)) {
+			// Remove the item form current position if already in the history
+			const index = hist.indexOf(symbol)
+			hist.splice(index, 1)
+		} else if (history.length >= HISTORY_MAX_SIZE) {
+			// Remove the oldest item if history is full
+			hist.pop()
+		}
+
+		setHistory([symbol, ...hist])
+	}
+
+	const retrieveHistory = () => {
+		const histRes = history.map((item) => getFinanceInfo(item))
+
+		Promise.all(histRes).then((historyResults) => {
+			const searchResltsHistory: Symbol[] = []
+			historyResults.forEach((info, idx) => {
+				const meta = info.chart.result[0].meta
+				const symbol: Symbol = {
+					exchange: meta.exchangeName,
+					shortname: "Short name",
+					quoteType: meta.instrumentType,
+					symbol: meta.symbol,
+					index: idx.toString(),
+				}
+
+				searchResltsHistory.push(symbol)
+			})
+
+			setSearchResults(searchResltsHistory)
+		})
+	}
 
 	const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value
@@ -50,6 +90,8 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const selectResult = (symbol: Symbol) => {
 		registerSymbol(symbol)
 		setSearchText("")
+		setSearchResults([])
+		addToHistory(symbol.symbol)
 	}
 
 	return (
@@ -61,8 +103,9 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 				placeholder="Search for a company or symbol"
 				onChange={handleSearchChange}
 				onKeyDown={handleKeyPress}
+				onFocus={retrieveHistory}
 			/>
-			{searchText && (
+			{searchResults && (
 				<ul className="search__result-list">
 					{searchResults.map((company, idx) => (
 						<li
