@@ -41,14 +41,13 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 
 				case "Enter":
 					const symbol = searchResults[index]
-					registerSymbol(symbol)
-					setSearchText("")
+					selectResult(symbol)
 					break
 			}
 		}
 	}
 
-	const handleClick = (symbol: Symbol) => {
+	const selectResult = (symbol: Symbol) => {
 		registerSymbol(symbol)
 		setSearchText("")
 	}
@@ -69,7 +68,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 						<li
 							key={company.symbol}
 							className="search__result"
-							onClick={() => handleClick(company)}
+							onClick={() => selectResult(company)}
 						>
 							<div
 								className={`result-item${
