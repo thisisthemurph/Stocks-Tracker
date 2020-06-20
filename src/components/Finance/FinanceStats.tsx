@@ -7,9 +7,19 @@ interface FinanceStatsProps {
 
 const FinanceStats: React.FC<FinanceStatsProps> = ({ previousClose, open }: FinanceStatsProps) => {
 	return (
-		<div className="finance-stats">
-			<p>Previous close: {previousClose}</p>
-			<p>Open: {open}</p>
+		<div className="finance-stats container">
+			<div className="finance-stats__col">
+				<span className="finance-stats__row">
+					<strong className="finance-stats__heading">Previous close: </strong>
+					{previousClose}
+				</span>
+			</div>
+			<div className="finance-stats__col">
+				<span className="finance-stats__row">
+					<strong className="finance-stats__heading">Open: </strong>
+					{open}
+				</span>
+			</div>
 		</div>
 	)
 }
