@@ -27,16 +27,12 @@ const App: React.FC = () => {
 	return (
 		<div className="App">
 			<header className="App-header">
-				<div className="container">
-					<Search registerSymbol={(symbol) => setCompany(symbol)} />
-				</div>
+				<Search registerSymbol={(symbol) => setCompany(symbol)} />
 			</header>
 			<main>
-				<div className="container">
-					{chart && company && summary && (
-						<Finance company={company} chartData={chart} summary={summary} />
-					)}
-				</div>
+				{chart && company && summary && (
+					<Finance company={company} chartData={chart} summary={summary} />
+				)}
 			</main>
 		</div>
 	)

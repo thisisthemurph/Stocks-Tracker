@@ -13,7 +13,7 @@ const FinanceHeader: React.FC<FinanceHeaderProps> = ({
 	currentPrice,
 }: FinanceHeaderProps) => {
 	return (
-		<div className="finance-header">
+		<div className="finance-header container">
 			<h1 className="finance-header__heading">
 				{company.shortname} ({company.symbol})
 			</h1>
