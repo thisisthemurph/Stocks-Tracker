@@ -2,7 +2,7 @@ import React from "react"
 
 interface FinanceStatsProps {
 	previousClose: number
-	open: number
+	open: number | null
 }
 
 const FinanceStats: React.FC<FinanceStatsProps> = ({ previousClose, open }: FinanceStatsProps) => {
@@ -17,7 +17,7 @@ const FinanceStats: React.FC<FinanceStatsProps> = ({ previousClose, open }: Fina
 			<div className="data-table__col">
 				<span className="data-table__row">
 					<strong className="data-table__heading">Open: </strong>
-					{open}
+					{open || "n/a"}
 				</span>
 			</div>
 		</div>

@@ -13,7 +13,8 @@ interface FinanceProps {
 }
 
 const Finance: React.FC<FinanceProps> = ({ company, summary, chartData }: FinanceProps) => {
-	const open = chartData.indicators.quote[0].open[0]
+	const quote = chartData.indicators.quote[0]
+	const open = "open" in quote ? quote.open[0] : null
 
 	return (
 		<div className="finance">
