@@ -13,7 +13,9 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
 	const [index, setIndex] = useState(0)
-	const [history, setHistory] = useState<Array<string>>([])
+	const [history, setHistory] = useState<Array<string>>(
+		JSON.parse(localStorage.getItem("searchHistory") || "[]")
+	)
 
 	const addToHistory = (symbol: string) => {
 		let hist = history.slice(0)
@@ -28,6 +30,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		}
 
 		setHistory([symbol, ...hist])
+		localStorage.setItem("searchHistory", JSON.stringify([symbol, ...hist]))
 	}
 
 	const retrieveHistory = () => {
