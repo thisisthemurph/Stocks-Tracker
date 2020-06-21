@@ -14,7 +14,7 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData }: ChartProps) => {
 	const timestamps: moment.Moment[] = chartData.timestamp.map((ts) => moment(ts * 1000))
 	const data = timestamps.map((ts, idx) => ({
 		x: ts,
-		y: chartData.indicators.quote[0].close[idx],
+		y: parseFloat(chartData.indicators.quote[0].close[idx].toFixed(2)),
 	}))
 
 	useLayoutEffect(() => {

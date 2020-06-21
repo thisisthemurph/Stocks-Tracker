@@ -11,13 +11,13 @@ const FinanceStats: React.FC<FinanceStatsProps> = ({ previousClose, open }: Fina
 			<div className="data-table__col">
 				<span className="data-table__row">
 					<strong className="data-table__heading">Previous close: </strong>
-					{previousClose}
+					{previousClose.toFixed(2)}
 				</span>
 			</div>
 			<div className="data-table__col">
 				<span className="data-table__row">
 					<strong className="data-table__heading">Open: </strong>
-					{open || "n/a"}
+					{open ? open.toFixed(2) : "none"}
 				</span>
 			</div>
 		</div>
