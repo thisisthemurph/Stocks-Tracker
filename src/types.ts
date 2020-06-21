@@ -47,7 +47,7 @@ export interface ChartResult {
 		range: string
 		validRanges: string[]
 	}
-	timesatmp: number[]
+	timestamp: number[]
 	indicators: {
 		quote: Array<Quote>
 	}
