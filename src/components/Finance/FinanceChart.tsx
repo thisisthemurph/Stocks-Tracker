@@ -2,7 +2,6 @@ import React, { useRef, useLayoutEffect } from "react"
 import { ChartResult } from "../../types"
 import Chart from "chart.js"
 import moment from "moment"
-import { time, timeStamp } from "console"
 
 interface ChartProps {
 	chartData: ChartResult
