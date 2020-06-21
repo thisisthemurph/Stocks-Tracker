@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Montserrat&display=swap");
 @import "./variables.scss";
+
 *,
 *::before,
 *::after {
@@ -13,7 +14,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: $-c-font-primary;
-    background-color: #282c34;
+    background-color: $-c-background;
 
     h1,
     h2,
