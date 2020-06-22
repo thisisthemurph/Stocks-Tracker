@@ -19,11 +19,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 		.filter((ts, idx) => ts && chartData.indicators.quote[0].close[idx])
 		.map((ts) => moment(ts * 1000))
 
-	console.log({
-		close: closeValues.length,
-		ts: timestamps.length,
-	})
-
 	const data = timestamps.map((ts, idx) => ({
 		x: ts,
 		y: parseFloat(closeValues[idx].toFixed(2)),
