@@ -68,9 +68,10 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, setInterval, setRange }
 					tooltips: {
 						mode: "x-axis",
 					},
-					events: ["mousemove", "click"],
-					hover: {
-						axis: "x",
+					elements: {
+						line: {
+							tension: 0,
+						},
 					},
 				},
 			})
