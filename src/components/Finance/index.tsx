@@ -10,7 +10,6 @@ interface FinanceProps {
 	company: Symbol
 	summary: SymbolSummary
 	chartData: ChartResult
-	setInterval: React.Dispatch<React.SetStateAction<string>>
 	setRange: React.Dispatch<React.SetStateAction<string>>
 }
 
@@ -18,7 +17,6 @@ const Finance: React.FC<FinanceProps> = ({
 	company,
 	summary,
 	chartData,
-	setInterval,
 	setRange,
 }: FinanceProps) => {
 	const quote = chartData.indicators.quote[0]

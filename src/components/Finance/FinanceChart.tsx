@@ -6,11 +6,10 @@ import moment from "moment"
 
 interface ChartProps {
 	chartData: ChartResult
-	setInterval: React.Dispatch<React.SetStateAction<string>>
 	setRange: React.Dispatch<React.SetStateAction<string>>
 }
 
-const FinanceChart: React.FC<ChartProps> = ({ chartData, setInterval, setRange }: ChartProps) => {
+const FinanceChart: React.FC<ChartProps> = ({ chartData, setRange }: ChartProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null)
 
 	const timestamps: moment.Moment[] = chartData.timestamp.map((ts) => moment(ts * 1000))
@@ -32,7 +31,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, setInterval, setRange }
 					datasets: [
 						{
 							data: data,
-							backgroundColor: "rgba(105, 181, 120, 0.8)",
 							borderColor: "rgba(105, 181, 120, 0.8)",
 							borderWidth: 1,
 							pointRadius: 0,

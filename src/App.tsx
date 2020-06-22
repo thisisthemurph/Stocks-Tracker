@@ -9,7 +9,6 @@ const App: React.FC = () => {
 	const [company, setCompany] = useState<Symbol | null>(null)
 	const [summary, setSummary] = useState<SymbolSummary | null>(null)
 	const [financeInfo, setFinanceInfo] = useState<FinanceInfo | null>(null)
-	const [interval, setInterval] = useState("2m")
 	const [range, setRange] = useState("1d")
 
 	const getDefaultIntervalFromRange = (range: string): string => {
@@ -47,7 +46,7 @@ const App: React.FC = () => {
 				setSummary(companySummary)
 			}
 		})()
-	}, [company, interval, range])
+	}, [company, range])
 
 	useEffect(() => {
 		;(async () => {
@@ -71,7 +70,6 @@ const App: React.FC = () => {
 						company={company}
 						chartData={chart}
 						summary={summary}
-						setInterval={setInterval}
 						setRange={setRange}
 					/>
 				)}
