@@ -30,7 +30,7 @@ const Finance: React.FC<FinanceProps> = ({
 				currentPrice={summary.financialData.currentPrice.fmt}
 			/>
 
-			<FinanceChart chartData={chartData} setInterval={setInterval} setRange={setRange} />
+			<FinanceChart chartData={chartData} setRange={setRange} />
 			<FinanceStats previousClose={chartData.meta.previousClose} open={open} />
 			<FinanceSummary summary={summary} />
 		</div>
