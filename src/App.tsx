@@ -24,9 +24,9 @@ const App: React.FC = () => {
 			case "1y":
 				return "1d"
 			case "5y":
-				return "1w"
+				return "1wk"
 			default:
-				return "1m"
+				return "1mo"
 		}
 	}
 
