@@ -82,8 +82,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, setRange }: ChartProps)
 		}
 	})
 
-	console.log(chartData.meta.validRanges)
-
 	const btns = chartData.meta.validRanges
 		.filter((range) => validRanges.includes(range))
 		.map((range) => ({
