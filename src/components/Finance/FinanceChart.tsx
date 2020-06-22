@@ -12,11 +12,17 @@ interface ChartProps {
 const FinanceChart: React.FC<ChartProps> = ({ chartData, setRange }: ChartProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null)
 
-	const timestamps: moment.Moment[] = chartData.timestamp.map((ts) => moment(ts * 1000))
+	const closeValues = chartData.indicators.quote[0].close.filter((close) => close)
+	const timestamps: moment.Moment[] = chartData.timestamp
+		.filter((ts, idx) => ts && chartData.indicators.quote[0].close[idx])
+		.map((ts) => moment(ts * 1000))
+
 	const data = timestamps.map((ts, idx) => ({
 		x: ts,
-		y: parseFloat(chartData.indicators.quote[0].close[idx].toFixed(2)),
+		y: parseFloat(closeValues[idx].toFixed(2)),
 	}))
+
+	const validRanges = ["1d", "5d", "1mo", "6mo", "ytd", "1y", "5y", "max"]
 
 	useLayoutEffect(() => {
 		const ctx: CanvasRenderingContext2D | null = canvas.current
@@ -76,10 +82,14 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, setRange }: ChartProps)
 		}
 	})
 
-	const btns = chartData.meta.validRanges.map((range) => ({
-		value: range,
-		onClick: () => setRange(range),
-	}))
+	console.log(chartData.meta.validRanges)
+
+	const btns = chartData.meta.validRanges
+		.filter((range) => validRanges.includes(range))
+		.map((range) => ({
+			value: range,
+			onClick: () => setRange(range),
+		}))
 
 	return (
 		<div className="container">
