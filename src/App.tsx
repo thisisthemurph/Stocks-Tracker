@@ -70,6 +70,7 @@ const App: React.FC = () => {
 						company={company}
 						chartData={chart}
 						summary={summary}
+						range={range}
 						setRange={setRange}
 					/>
 				)}
