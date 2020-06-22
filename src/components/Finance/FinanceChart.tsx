@@ -1,13 +1,16 @@
 import React, { useRef, useLayoutEffect } from "react"
 import { ChartResult } from "../../types"
+import RangeButtons from "../RangeButtons"
 import Chart from "chart.js"
 import moment from "moment"
 
 interface ChartProps {
 	chartData: ChartResult
+	setInterval: React.Dispatch<React.SetStateAction<string>>
+	setRange: React.Dispatch<React.SetStateAction<string>>
 }
 
-const FinanceChart: React.FC<ChartProps> = ({ chartData }: ChartProps) => {
+const FinanceChart: React.FC<ChartProps> = ({ chartData, setInterval, setRange }: ChartProps) => {
 	const canvas = useRef<HTMLCanvasElement>(null)
 
 	const timestamps: moment.Moment[] = chartData.timestamp.map((ts) => moment(ts * 1000))
@@ -74,9 +77,15 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData }: ChartProps) => {
 		}
 	})
 
+	const btns = chartData.meta.validRanges.map((range) => ({
+		value: range,
+		onClick: () => setRange(range),
+	}))
+
 	return (
 		<div className="container">
 			<canvas ref={canvas} className="finance-chart" />
+			<RangeButtons buttons={btns} />
 		</div>
 	)
 }

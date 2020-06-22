@@ -39,16 +39,18 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		Promise.all(histRes).then((historyResults) => {
 			const searchResltsHistory: Symbol[] = []
 			historyResults.forEach((info, idx) => {
-				const meta = info.chart.result[0].meta
-				const symbol: Symbol = {
-					exchange: meta.exchangeName,
-					shortname: "Short name",
-					quoteType: meta.instrumentType,
-					symbol: meta.symbol,
-					index: idx.toString(),
-				}
+				if (info !== null) {
+					const meta = info.chart.result[0].meta
+					const symbol: Symbol = {
+						exchange: meta.exchangeName,
+						shortname: "Short name",
+						quoteType: meta.instrumentType,
+						symbol: meta.symbol,
+						index: idx.toString(),
+					}
 
-				searchResltsHistory.push(symbol)
+					searchResltsHistory.push(symbol)
+				}
 			})
 
 			setSearchResults(searchResltsHistory)
@@ -59,8 +61,10 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		const value = event.target.value
 		setSearchText(value)
 
-		const results = (await search(value)) as Symbol[]
-		setSearchResults(results)
+		const results = await search(value)
+		if (results !== null) {
+			setSearchResults(results)
+		}
 	}
 
 	const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {

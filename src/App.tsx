@@ -9,13 +9,49 @@ const App: React.FC = () => {
 	const [company, setCompany] = useState<Symbol | null>(null)
 	const [summary, setSummary] = useState<SymbolSummary | null>(null)
 	const [financeInfo, setFinanceInfo] = useState<FinanceInfo | null>(null)
+	const [interval, setInterval] = useState("2m")
+	const [range, setRange] = useState("1d")
+
+	const getDefaultIntervalFromRange = (range: string): string => {
+		switch (range) {
+			case "1d":
+				return "2m"
+			case "5d":
+				return "15m"
+			case "1mo":
+				return "30m"
+			case "6mo":
+			case "ytd":
+			case "1y":
+				return "1d"
+			case "5y":
+				return "1w"
+			default:
+				return "1m"
+		}
+	}
+
+	useEffect(() => {
+		;(async () => {
+			const intervalValue = getDefaultIntervalFromRange(range)
+
+			if (company !== null) {
+				const info = (await getFinanceInfo(
+					company.symbol,
+					intervalValue,
+					range
+				)) as FinanceInfo
+				setFinanceInfo(info)
+
+				const companySummary = (await getSummary(company.symbol)) as SymbolSummary
+				setSummary(companySummary)
+			}
+		})()
+	}, [company, interval, range])
 
 	useEffect(() => {
 		;(async () => {
 			if (company !== null) {
-				const info = (await getFinanceInfo(company.symbol)) as FinanceInfo
-				setFinanceInfo(info)
-
 				const companySummary = (await getSummary(company.symbol)) as SymbolSummary
 				setSummary(companySummary)
 			}
@@ -31,7 +67,13 @@ const App: React.FC = () => {
 			</header>
 			<main>
 				{chart && company && summary && (
-					<Finance company={company} chartData={chart} summary={summary} />
+					<Finance
+						company={company}
+						chartData={chart}
+						summary={summary}
+						setInterval={setInterval}
+						setRange={setRange}
+					/>
 				)}
 			</main>
 		</div>

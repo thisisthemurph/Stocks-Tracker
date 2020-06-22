@@ -10,9 +10,17 @@ interface FinanceProps {
 	company: Symbol
 	summary: SymbolSummary
 	chartData: ChartResult
+	setInterval: React.Dispatch<React.SetStateAction<string>>
+	setRange: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Finance: React.FC<FinanceProps> = ({ company, summary, chartData }: FinanceProps) => {
+const Finance: React.FC<FinanceProps> = ({
+	company,
+	summary,
+	chartData,
+	setInterval,
+	setRange,
+}: FinanceProps) => {
 	const quote = chartData.indicators.quote[0]
 	const open = "open" in quote ? quote.open[0] : null
 
@@ -24,7 +32,7 @@ const Finance: React.FC<FinanceProps> = ({ company, summary, chartData }: Financ
 				currentPrice={summary.financialData.currentPrice.fmt}
 			/>
 
-			<FinanceChart chartData={chartData} />
+			<FinanceChart chartData={chartData} setInterval={setInterval} setRange={setRange} />
 			<FinanceStats previousClose={chartData.meta.previousClose} open={open} />
 			<FinanceSummary summary={summary} />
 		</div>
