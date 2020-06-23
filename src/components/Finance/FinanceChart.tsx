@@ -29,7 +29,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 	useEffect(() => {
 		if (chart) {
 			chart.data = {
-				labels: timestamps,
 				datasets: [
 					{
 						data: data,
@@ -42,7 +41,7 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 
 			chart.update()
 		}
-	}, [range])
+	}, [range, chartData.meta.symbol])
 
 	useLayoutEffect(() => {
 		const ctx: CanvasRenderingContext2D | null = canvas.current
@@ -54,7 +53,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 				new Chart(ctx, {
 					type: "line",
 					data: {
-						labels: timestamps,
 						datasets: [
 							{
 								data: data,
