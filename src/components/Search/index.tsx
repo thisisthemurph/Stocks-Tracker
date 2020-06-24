@@ -13,12 +13,12 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
 	const [index, setIndex] = useState(0)
-	const [history, setHistory] = useState<Array<string>>(
+	const [history, setHistory] = useState<Array<Symbol>>(
 		JSON.parse(localStorage.getItem("searchHistory") || "[]")
 	)
 
-	const addToHistory = (symbol: string) => {
-		let hist = history.slice(0)
+	const addToHistory = (symbol: Symbol) => {
+		const hist = history.slice(0)
 
 		if (hist.includes(symbol)) {
 			// Remove the item form current position if already in the history
@@ -34,7 +34,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	}
 
 	const retrieveHistory = () => {
-		const histRes = history.map((item) => getFinanceInfo(item))
+		const histRes = history.map((item) => getFinanceInfo(item.symbol))
 
 		Promise.all(histRes).then((historyResults) => {
 			const searchResltsHistory: Symbol[] = []
@@ -43,10 +43,9 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 					const meta = info.chart.result[0].meta
 					const symbol: Symbol = {
 						exchange: meta.exchangeName,
-						shortname: "Short name",
+						shortname: history[idx].shortname || "",
 						quoteType: meta.instrumentType,
 						symbol: meta.symbol,
-						index: idx.toString(),
 					}
 
 					searchResltsHistory.push(symbol)
@@ -109,7 +108,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		registerSymbol(symbol)
 		setSearchText("")
 		setSearchResults([])
-		addToHistory(symbol.symbol)
+		addToHistory(symbol)
 	}
 
 	return (
