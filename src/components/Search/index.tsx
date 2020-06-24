@@ -1,8 +1,7 @@
 import React, { useState } from "react"
 import SearchItem from "./SearchItem"
-import { Symbol, FinanceInfo } from "../../types"
+import { Symbol } from "../../types"
 import { search, getFinanceInfo } from "../../api/yahoo-finance"
-import moment from "moment"
 import "./Search.scss"
 
 interface SearchProps {
@@ -13,7 +12,7 @@ const HISTORY_MAX_SIZE = 8
 
 const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
-	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
+	const [searchResults, setSearchResults] = useState<Array<Symbol | null>>([])
 	const [selectedItem, setSelectedItem] = useState(0)
 	const [history, setHistory] = useState<Array<Symbol>>(
 		JSON.parse(localStorage.getItem("searchHistory") || "[]")
@@ -36,9 +35,21 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	}
 
 	const retrieveHistory = () => {
-		const histRes = history.map((item) => getFinanceInfo(item.symbol))
+		// Create a temp list of 'loading' results
+		setSearchResults(
+			history.map((symbol) => ({
+				exchange: symbol.exchange,
+				shortname: symbol.shortname,
+				quoteType: symbol.quoteType,
+				symbol: "Loading...",
+			}))
+		)
 
+		// Once the promise has resolved, we will replace the temp data
+		const histRes = history.map((item) => getFinanceInfo(item.symbol))
 		Promise.all(histRes).then((historyResults) => {
+			setSearchResults([])
+
 			const searchResltsHistory: Symbol[] = []
 			historyResults.forEach((info, idx) => {
 				if (info !== null) {
@@ -91,7 +102,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 
 				case "Enter":
 					const symbol = searchResults[selectedItem]
-					selectResult(symbol)
+					if (symbol) selectResult(symbol)
 					break
 
 				case "Escape":
@@ -126,18 +137,20 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 				onKeyDown={handleKeyPress}
 				onFocus={retrieveHistory}
 			/>
-			{searchResults && (
-				<ul className="search__result-list">
-					{searchResults.map((company, idx) => (
-						<SearchItem
-							key={company.symbol}
-							symbol={company}
-							active={idx === selectedItem}
-							selectResult={selectResult}
-						/>
-					))}
-				</ul>
-			)}
+
+			<ul className="search__result-list">
+				{searchResults.map(
+					(company, idx) =>
+						company && (
+							<SearchItem
+								key={company.symbol}
+								symbol={company}
+								active={idx === selectedItem}
+								selectResult={selectResult}
+							/>
+						)
+				)}
+			</ul>
 		</div>
 	)
 }
