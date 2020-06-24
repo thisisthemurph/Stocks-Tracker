@@ -19,8 +19,8 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 
 	const addToHistory = (symbol: Symbol) => {
 		const hist = history.slice(0)
-
 		const index = hist.findIndex((h: Symbol) => h.symbol === symbol.symbol)
+
 		if (index > -1) {
 			// Remove the item form current position if already in the history
 			hist.splice(index, 1)
