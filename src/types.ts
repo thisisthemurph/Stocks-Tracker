@@ -3,7 +3,7 @@ export interface Symbol {
 	shortname: string
 	quoteType: string
 	symbol: string
-	index: string
+	index?: string
 }
 
 interface TradingPeriod {
