@@ -1,6 +1,8 @@
 import React, { useState } from "react"
-import { Symbol } from "../../types"
+import SearchItem from "./SearchItem"
+import { Symbol, FinanceInfo } from "../../types"
 import { search, getFinanceInfo } from "../../api/yahoo-finance"
+import moment from "moment"
 import "./Search.scss"
 
 interface SearchProps {
@@ -12,7 +14,7 @@ const HISTORY_MAX_SIZE = 8
 const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol>>([])
-	const [index, setIndex] = useState(0)
+	const [selectedItem, setSelectedItem] = useState(0)
 	const [history, setHistory] = useState<Array<Symbol>>(
 		JSON.parse(localStorage.getItem("searchHistory") || "[]")
 	)
@@ -70,23 +72,25 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		if (searchResults.length > 0) {
 			switch (event.key) {
 				case "ArrowUp":
-					setIndex((index - 1 + searchResults.length) % searchResults.length)
+					setSelectedItem(
+						(selectedItem - 1 + searchResults.length) % searchResults.length
+					)
 					break
 
 				case "ArrowDown":
-					setIndex((index + 1) % searchResults.length)
+					setSelectedItem((selectedItem + 1) % searchResults.length)
 					break
 
 				case "Home":
-					setIndex(0)
+					setSelectedItem(0)
 					break
 
 				case "End":
-					setIndex(searchResults.length - 1)
+					setSelectedItem(searchResults.length - 1)
 					break
 
 				case "Enter":
-					const symbol = searchResults[index]
+					const symbol = searchResults[selectedItem]
 					selectResult(symbol)
 					break
 
@@ -125,26 +129,12 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 			{searchResults && (
 				<ul className="search__result-list">
 					{searchResults.map((company, idx) => (
-						<li
+						<SearchItem
 							key={company.symbol}
-							className="search__result"
-							onClick={() => selectResult(company)}
-						>
-							<div
-								className={`result-item${
-									idx === index ? " result-item--active" : ""
-								}`}
-								role="link"
-								title={company.shortname}
-								tabIndex={0}
-							>
-								<span className="result-item__symbol">{company.symbol}</span>
-								<span className="result-item__name">{company.shortname}</span>
-								<span className="result-item__info">
-									{company.quoteType} - {company.exchange}
-								</span>
-							</div>
-						</li>
+							symbol={company}
+							active={idx === selectedItem}
+							selectResult={selectResult}
+						/>
 					))}
 				</ul>
 			)}
