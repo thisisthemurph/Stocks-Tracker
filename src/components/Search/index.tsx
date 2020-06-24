@@ -20,9 +20,9 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const addToHistory = (symbol: Symbol) => {
 		const hist = history.slice(0)
 
-		if (hist.includes(symbol)) {
+		const index = hist.findIndex((h: Symbol) => h.symbol === symbol.symbol)
+		if (index > -1) {
 			// Remove the item form current position if already in the history
-			const index = hist.indexOf(symbol)
 			hist.splice(index, 1)
 		} else if (history.length >= HISTORY_MAX_SIZE) {
 			// Remove the oldest item if history is full
