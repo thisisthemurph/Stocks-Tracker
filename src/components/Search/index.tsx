@@ -41,7 +41,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 				exchange: symbol.exchange,
 				shortname: symbol.shortname,
 				quoteType: symbol.quoteType,
-				symbol: "Loading...",
+				symbol: symbol.symbol,
 			}))
 		)
 

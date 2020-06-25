@@ -39,10 +39,11 @@
 
             display: grid;
             grid-template-columns: 8fr 2fr;
-            grid-template-rows: 1fr 1fr;
+            grid-template-rows: 1fr 1fr auto;
             grid-template-areas:
                 "symbol info"
-                "name info";
+                "name info"
+                "chart chart";
 
             cursor: pointer;
 
@@ -74,5 +75,9 @@
                 align-self: center;
             }
         }
+    }
+
+    &__chart {
+        grid-area: chart;
     }
 }

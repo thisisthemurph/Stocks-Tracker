@@ -1,5 +1,7 @@
-import React from "react"
-import { Symbol } from "../../types"
+import React, { useEffect, useState } from "react"
+import SearchChart from "./SearchChart"
+import { Symbol, ChartResult } from "../../types"
+import { getFinanceInfo } from "../../api/yahoo-finance"
 
 interface SearchItemProps {
 	symbol: Symbol
@@ -8,6 +10,22 @@ interface SearchItemProps {
 }
 
 const Search: React.FC<SearchItemProps> = ({ symbol, active, selectResult }: SearchItemProps) => {
+	const [chartData, setChartData] = useState<ChartResult | null>(null)
+
+	useEffect(() => {
+		const getChartData = async () => {
+			if (symbol !== null) {
+				const info = await getFinanceInfo(symbol.symbol)
+
+				if (info) {
+					setChartData(info.chart.result[0])
+				}
+			}
+		}
+
+		getChartData()
+	}, [])
+
 	return (
 		<li className="search__result" onClick={() => selectResult(symbol)}>
 			<div
@@ -21,6 +39,8 @@ const Search: React.FC<SearchItemProps> = ({ symbol, active, selectResult }: Sea
 				<span className="result-item__info">
 					{symbol.quoteType} - {symbol.exchange}
 				</span>
+
+				{chartData && <SearchChart chartData={chartData} />}
 			</div>
 		</li>
 	)
