@@ -23,7 +23,7 @@ export const getFinanceInfo = async (
 ): Promise<FinanceInfo | null> => {
 	try {
 		const url = `finance/chart/${symbol}?region=GB&lang=en-GB&includePrePost=false&interval=${interval}&range=${range}&corsDomain=uk.finance.yahoo.com&.tsrc=finance`
-		return client(url)
+		return await client(url)
 	} catch (err) {
 		console.log("There has been an issue fetching stock information")
 		console.error(err)
@@ -33,7 +33,7 @@ export const getFinanceInfo = async (
 
 export const getSummary = async (symbol: string): Promise<SymbolSummary | null> => {
 	try {
-		return client(`finance/quoteSummary/${symbol}`)
+		return await client(`finance/quoteSummary/${symbol}`)
 	} catch (err) {
 		console.log("There has been an issue fetching summary information")
 		console.log(err)

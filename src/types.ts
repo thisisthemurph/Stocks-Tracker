@@ -111,3 +111,9 @@ export interface SymbolSummary {
 		financialCurrency: string
 	}
 }
+
+// Interface for data added to Chart.js charts
+export interface ChartData {
+	x: moment.Moment
+	y: number
+}

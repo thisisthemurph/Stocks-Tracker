@@ -35,15 +35,8 @@ const App: React.FC = () => {
 			const intervalValue = getDefaultIntervalFromRange(range)
 
 			if (company !== null) {
-				const info = (await getFinanceInfo(
-					company.symbol,
-					intervalValue,
-					range
-				)) as FinanceInfo
+				const info = await getFinanceInfo(company.symbol, intervalValue, range)
 				setFinanceInfo(info)
-
-				const companySummary = (await getSummary(company.symbol)) as SymbolSummary
-				setSummary(companySummary)
 			}
 		})()
 	}, [company, range])
@@ -51,7 +44,7 @@ const App: React.FC = () => {
 	useEffect(() => {
 		;(async () => {
 			if (company !== null) {
-				const companySummary = (await getSummary(company.symbol)) as SymbolSummary
+				const companySummary = await getSummary(company.symbol)
 				setSummary(companySummary)
 			}
 		})()
@@ -65,7 +58,7 @@ const App: React.FC = () => {
 				<Search registerSymbol={(symbol) => setCompany(symbol)} />
 			</header>
 			<main>
-				{chart && company && summary && (
+				{chart && company && (
 					<Finance
 						company={company}
 						chartData={chart}

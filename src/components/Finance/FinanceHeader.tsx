@@ -4,7 +4,7 @@ import { Symbol } from "../../types"
 interface FinanceHeaderProps {
 	company: Symbol
 	currency: string
-	currentPrice: string
+	currentPrice: string | undefined
 }
 
 const FinanceHeader: React.FC<FinanceHeaderProps> = ({
@@ -20,7 +20,7 @@ const FinanceHeader: React.FC<FinanceHeaderProps> = ({
 			<p className="finance-header__subheading">
 				Exchange: {company.exchange} - Currency is {currency}
 			</p>
-			<p className="finance-header__current-price">{currentPrice}</p>
+			<p className="finance-header__current-price">{currentPrice || "Not available"}</p>
 		</div>
 	)
 }

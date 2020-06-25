@@ -8,7 +8,7 @@ import "./Finance.scss"
 
 interface FinanceProps {
 	company: Symbol
-	summary: SymbolSummary
+	summary: SymbolSummary | null
 	chartData: ChartResult
 	range: string
 	setRange: React.Dispatch<React.SetStateAction<string>>
@@ -29,12 +29,12 @@ const Finance: React.FC<FinanceProps> = ({
 			<FinanceHeader
 				company={company}
 				currency={chartData.meta.currency}
-				currentPrice={summary.financialData.currentPrice.fmt}
+				currentPrice={summary?.financialData.currentPrice.fmt}
 			/>
 
 			<FinanceChart chartData={chartData} range={range} setRange={setRange} />
 			<FinanceStats previousClose={chartData.meta.previousClose} open={open} />
-			<FinanceSummary summary={summary} />
+			{summary && <FinanceSummary summary={summary} />}
 		</div>
 	)
 }

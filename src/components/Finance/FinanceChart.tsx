@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react"
-import { ChartResult } from "../../types"
+import { ChartResult, ChartData } from "../../types"
 import RangeButtons from "../RangeButtons"
 import Chart from "chart.js"
 import moment from "moment"
@@ -14,16 +14,6 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 	const [chart, setChart] = useState<Chart | null>(null)
 	const canvas = useRef<HTMLCanvasElement>(null)
 
-	const closeValues = chartData.indicators.quote[0].close.filter((close) => close)
-	const timestamps: moment.Moment[] = chartData.timestamp
-		.filter((ts, idx) => ts && chartData.indicators.quote[0].close[idx])
-		.map((ts) => moment(ts * 1000))
-
-	const data = timestamps.map((ts, idx) => ({
-		x: ts,
-		y: parseFloat(closeValues[idx].toFixed(2)),
-	}))
-
 	const validRanges = ["1d", "5d", "1mo", "6mo", "ytd", "1y", "5y", "max"]
 
 	useEffect(() => {
@@ -31,7 +21,7 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 			chart.data = {
 				datasets: [
 					{
-						data: data,
+						data: getChartData(),
 						borderColor: "rgba(105, 181, 120, 0.8)",
 						borderWidth: 1,
 						pointRadius: 0,
@@ -49,58 +39,82 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 			: null
 
 		if (ctx !== null) {
-			setChart(
-				new Chart(ctx, {
-					type: "line",
-					data: {
-						datasets: [
+			createChart(ctx, getChartData())
+		}
+	}, [])
+
+	const getChartData = (): ChartData[] => {
+		const quotes = chartData.indicators.quote
+
+		if (quotes.length > 0 && "close" in quotes[0]) {
+			const closeValues = chartData.indicators.quote[0].close.filter((close) => close)
+			const timestamps: moment.Moment[] = chartData.timestamp
+				.filter((ts, idx) => ts && chartData.indicators.quote[0].close[idx])
+				.map((ts) => moment(ts * 1000))
+
+			const data: ChartData[] = timestamps.map((ts, idx) => ({
+				x: ts,
+				y: parseFloat(closeValues[idx].toFixed(2)),
+			}))
+
+			return data
+		}
+
+		return []
+	}
+
+	const createChart = (ctx: CanvasRenderingContext2D, data: ChartData[]) => {
+		setChart(
+			new Chart(ctx, {
+				type: "line",
+				data: {
+					datasets: [
+						{
+							data: data,
+							borderColor: "rgba(105, 181, 120, 0.8)",
+							borderWidth: 1,
+							pointRadius: 0,
+						},
+					],
+				},
+				options: {
+					legend: {
+						display: false,
+					},
+					scales: {
+						xAxes: [
 							{
-								data: data,
-								borderColor: "rgba(105, 181, 120, 0.8)",
-								borderWidth: 1,
-								pointRadius: 0,
+								type: "time",
+								ticks: {
+									autoSkip: true,
+								},
+								gridLines: {
+									display: false,
+									drawBorder: false,
+								},
+							},
+						],
+						yAxes: [
+							{
+								gridLines: {
+									display: false,
+									drawBorder: false,
+								},
 							},
 						],
 					},
-					options: {
-						legend: {
-							display: false,
-						},
-						scales: {
-							xAxes: [
-								{
-									type: "time",
-									ticks: {
-										autoSkip: true,
-									},
-									gridLines: {
-										display: false,
-										drawBorder: false,
-									},
-								},
-							],
-							yAxes: [
-								{
-									gridLines: {
-										display: false,
-										drawBorder: false,
-									},
-								},
-							],
-						},
-						tooltips: {
-							mode: "x-axis",
-						},
-						elements: {
-							line: {
-								tension: 0,
-							},
+					tooltips: {
+						mode: "x-axis",
+					},
+					elements: {
+						line: {
+							tension: 0,
 						},
 					},
-				})
-			)
-		}
-	}, [])
+				},
+			})
+		)
+	}
 
 	const btns = chartData.meta.validRanges
 		.filter((range) => validRanges.includes(range))
