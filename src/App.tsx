@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react"
-import Search from "./components/Search"
+
 import { getFinanceInfo, getSummary } from "./api/yahoo-finance"
 import { Symbol, SymbolSummary, FinanceInfo } from "./types"
+
+import Nav from "./components/Nav"
+import Search from "./components/Search"
 import Finance from "./components/Finance"
+
 import "./App.scss"
 
 const App: React.FC = () => {
@@ -54,10 +58,10 @@ const App: React.FC = () => {
 
 	return (
 		<div className="App">
-			<header className="App-header">
+			<header className="header">
 				<Search registerSymbol={(symbol) => setCompany(symbol)} />
 			</header>
-			<main>
+			<main className="main">
 				{chart && company && (
 					<Finance
 						company={company}
@@ -68,6 +72,7 @@ const App: React.FC = () => {
 					/>
 				)}
 			</main>
+			<Nav />
 		</div>
 	)
 }
