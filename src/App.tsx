@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 
 import { getFinanceInfo, getSummary } from "./api/yahoo-finance"
 import { Symbol, SymbolSummary, FinanceInfo } from "./types"
@@ -8,12 +9,16 @@ import Search from "./components/Search"
 import Finance from "./components/Finance"
 
 import "./App.scss"
+import SymbolList from "./components/SymbolList"
 
 const App: React.FC = () => {
-	const [company, setCompany] = useState<Symbol | null>(null)
+	const [symbol, setSymbol] = useState<Symbol | null>(null)
 	const [summary, setSummary] = useState<SymbolSummary | null>(null)
 	const [financeInfo, setFinanceInfo] = useState<FinanceInfo | null>(null)
 	const [range, setRange] = useState("1d")
+
+	const history: Symbol[] = JSON.parse(localStorage.getItem("searchHistory") || "[]")
+	const favourites: Symbol[] = JSON.parse(localStorage.getItem("favourites") || "[]")
 
 	const getDefaultIntervalFromRange = (range: string): string => {
 		switch (range) {
@@ -38,42 +43,54 @@ const App: React.FC = () => {
 		;(async () => {
 			const intervalValue = getDefaultIntervalFromRange(range)
 
-			if (company !== null) {
-				const info = await getFinanceInfo(company.symbol, intervalValue, range)
+			if (symbol !== null) {
+				const info = await getFinanceInfo(symbol.symbol, intervalValue, range)
 				setFinanceInfo(info)
 			}
 		})()
-	}, [company, range])
+	}, [symbol, range])
 
 	useEffect(() => {
 		;(async () => {
-			if (company !== null) {
-				const companySummary = await getSummary(company.symbol)
+			if (symbol !== null) {
+				const companySummary = await getSummary(symbol.symbol)
 				setSummary(companySummary)
 			}
 		})()
-	}, [company])
+	}, [symbol])
 
 	const chart = financeInfo?.chart.result[0]
 
 	return (
-		<div className="App">
-			<header className="header">
-				<Search registerSymbol={(symbol) => setCompany(symbol)} />
-			</header>
-			<main className="main">
-				{chart && company && (
-					<Finance
-						company={company}
-						chartData={chart}
-						summary={summary}
-						range={range}
-						setRange={setRange}
-					/>
-				)}
-			</main>
-			<Nav />
-		</div>
+		<Router>
+			<div className="App">
+				<header className="header">
+					<Search registerSymbol={(symbol) => setSymbol(symbol)} />
+				</header>
+				<main className="main">
+					<Switch>
+						<Route path="/history">
+							<SymbolList heading="Search histroy" symbols={history} />
+						</Route>
+						<Route path="/favourites">
+							<SymbolList heading="Favourites" symbols={favourites} />
+						</Route>
+						<Route path="/">
+							{chart && symbol && (
+								<Finance
+									company={symbol}
+									chartData={chart}
+									summary={summary}
+									range={range}
+									setRange={setRange}
+								/>
+							)}
+						</Route>
+					</Switch>
+				</main>
+				<Nav />
+			</div>
+		</Router>
 	)
 }
 
