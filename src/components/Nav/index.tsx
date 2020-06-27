@@ -10,27 +10,27 @@ const Nav: React.FC = () => {
 		<nav className="nav">
 			<ul className="nav__section">
 				<li className="nav__item logo">
-					<NavLink logo text="Filtersquid">
+					<NavLink to="/" isLogo text="Filtersquid">
 						<Logo />
 					</NavLink>
 				</li>
 				<li className="nav__item">
-					<NavLink text="History">
+					<NavLink to="/history" text="History">
 						<HISTORY_ICON />
 					</NavLink>
 				</li>
 				<li className="nav__item">
-					<NavLink text="Favourites">
+					<NavLink to="/favourites" text="Favourites">
 						<STAR_ICON />
 					</NavLink>
 				</li>
 				<li className="nav__item">
-					<NavLink text="Settings">
+					<NavLink to="/" text="Settings">
 						<SETTINGS_ICON />
 					</NavLink>
 				</li>
 				<li className="nav__item">
-					<NavLink text="Theme">
+					<NavLink to="/" text="Theme">
 						<MOON_ICON />
 					</NavLink>
 				</li>

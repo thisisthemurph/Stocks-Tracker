@@ -1,18 +1,20 @@
 import React from "react"
+import { Link } from "react-router-dom"
 
 interface NavLinkProps {
+	to: string
 	text: string
 	children: JSX.Element
-	logo?: boolean
+	isLogo?: boolean
 }
 
-const NavLink = ({ text, children, logo = false }: NavLinkProps) => {
+const NavLink = ({ to, text, children, isLogo = false }: NavLinkProps) => {
 	return (
-		<a href="/" className="nav__link">
-			{!logo ? children : null}
+		<Link to={to} className="nav__link">
+			{!isLogo ? children : null}
 			<span className="nav__link-text">{text}</span>
-			{logo ? children : null}
-		</a>
+			{isLogo ? children : null}
+		</Link>
 	)
 }
 

@@ -17,6 +17,7 @@ body {
     background-color: $-c-background;
 
     margin-bottom: 100px;
+    overflow-x: hidden;
 
     &::-webkit-scrollbar {
         width: 0.25rem;
