@@ -4,16 +4,14 @@ import { Symbol } from "../../types"
 import "./SymbolList.scss"
 
 interface SymbolListProps {
-	heading: string
 	symbols: Symbol[]
 }
 
-const SymbolList: React.FC<SymbolListProps> = ({ heading, symbols }: SymbolListProps) => {
+const SymbolList: React.FC<SymbolListProps> = ({ symbols }: SymbolListProps) => {
 	return (
-		<div className="symbol-list container">
-			<h1>{heading}</h1>
+		<div className="symbol-list">
 			{symbols.map((symbol) => (
-				<div className="symbol">
+				<div key={symbol.symbol} className="symbol">
 					<span className="symbol__symbol">{symbol.symbol}</span>
 					<span className="symbol__name">{symbol.shortname}</span>
 					<span className="symbol__info">

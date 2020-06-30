@@ -1,9 +1,12 @@
 import React from "react"
+
 import { Symbol, SymbolSummary, ChartResult } from "../../types"
+
 import FinanceHeader from "./FinanceHeader"
 import FinanceChart from "./FinanceChart"
 import FinanceStats from "./FinanceStats"
 import FinanceSummary from "./FinanceSummary"
+
 import "./Finance.scss"
 
 interface FinanceProps {

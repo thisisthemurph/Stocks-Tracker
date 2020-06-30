@@ -1,55 +1,36 @@
-import React, { useState } from "react"
-import SearchItem from "./SearchItem"
+import React, { useState, useEffect, useContext } from "react"
+
 import { Symbol } from "../../types"
 import { search, getFinanceInfo } from "../../api/yahoo-finance"
+import { StoreContext } from "../../store/store"
+
+import SearchItem from "./SearchItem"
 import "./Search.scss"
 
 interface SearchProps {
 	registerSymbol: (symbol: Symbol) => void
 }
 
-const HISTORY_MAX_SIZE = 8
-
 const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol | null>>([])
 	const [selectedItem, setSelectedItem] = useState(0)
-	const [history, setHistory] = useState<Array<Symbol>>(
-		JSON.parse(localStorage.getItem("searchHistory") || "[]")
-	)
 
-	const addToHistory = (symbol: Symbol) => {
-		const hist = history.slice(0)
-		const index = hist.findIndex((h: Symbol) => h.symbol === symbol.symbol)
+	const { state, actions } = useContext(StoreContext)
+	const { history } = state
 
-		if (index > -1) {
-			// Remove the item form current position if already in the history
-			hist.splice(index, 1)
-		} else if (history.length >= HISTORY_MAX_SIZE) {
-			// Remove the oldest item if history is full
-			hist.pop()
-		}
-
-		setHistory([symbol, ...hist])
-		localStorage.setItem("searchHistory", JSON.stringify([symbol, ...hist]))
-	}
+	useEffect(() => {
+		actions.getHistory()
+	}, [])
 
 	const retrieveHistory = () => {
 		// Create a temp list of 'loading' results
-		setSearchResults(
-			history.map((symbol) => ({
-				exchange: symbol.exchange,
-				shortname: symbol.shortname,
-				quoteType: symbol.quoteType,
-				symbol: symbol.symbol,
-			}))
-		)
+		setSearchResults(history)
 
 		// Once the promise has resolved, we will replace the temp data
 		const histRes = history.map((item) => getFinanceInfo(item.symbol))
 		Promise.all(histRes).then((historyResults) => {
 			setSearchResults([])
-
 			const searchResltsHistory: Symbol[] = []
 			historyResults.forEach((info, idx) => {
 				if (info !== null) {
@@ -60,11 +41,9 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 						quoteType: meta.instrumentType,
 						symbol: meta.symbol,
 					}
-
 					searchResltsHistory.push(symbol)
 				}
 			})
-
 			setSearchResults(searchResltsHistory)
 		})
 	}
@@ -123,35 +102,37 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		registerSymbol(symbol)
 		setSearchText("")
 		setSearchResults([])
-		addToHistory(symbol)
+		actions.addHistoryItem(symbol)
 	}
 
 	return (
-		<div className="search" onBlur={handleOnBlur}>
-			<input
-				className="search__input"
-				type="search"
-				value={searchText}
-				placeholder="Search for a company or symbol"
-				onChange={handleSearchChange}
-				onKeyDown={handleKeyPress}
-				onFocus={retrieveHistory}
-			/>
+		<header className="header">
+			<div className="search" onBlur={handleOnBlur}>
+				<input
+					className="search__input"
+					type="search"
+					value={searchText}
+					placeholder="Search for a company or symbol"
+					onChange={handleSearchChange}
+					onKeyDown={handleKeyPress}
+					onFocus={retrieveHistory}
+				/>
 
-			<ul className="search__result-list">
-				{searchResults.map(
-					(company, idx) =>
-						company && (
-							<SearchItem
-								key={company.symbol}
-								symbol={company}
-								active={idx === selectedItem}
-								selectResult={selectResult}
-							/>
-						)
-				)}
-			</ul>
-		</div>
+				<ul className="search__result-list">
+					{searchResults.map(
+						(company, idx) =>
+							company && (
+								<SearchItem
+									key={company.symbol}
+									symbol={company}
+									active={idx === selectedItem}
+									selectResult={selectResult}
+								/>
+							)
+					)}
+				</ul>
+			</div>
+		</header>
 	)
 }
 
