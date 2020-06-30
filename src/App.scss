@@ -1,1 +1,22 @@
+@import "./variables.scss";
 
+.heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2em;
+
+    &__heading {
+        font-size: 1.8em;
+        padding-bottom: 0;
+    }
+
+    &__subheading {
+        color: $-c-font-secondary;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        align-self: flex-end;
+    }
+}

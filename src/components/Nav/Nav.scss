@@ -39,7 +39,7 @@ $transition-speed: 500ms;
         align-items: center;
         justify-content: center;
         height: 5rem;
-        color: var($-c-font-primary);
+        color: $-c-font-primary;
         text-decoration: none;
         font-size: 1.2rem;
         filter: grayscale(100%) opacity(0.7);
