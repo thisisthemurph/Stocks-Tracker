@@ -33,6 +33,21 @@ export const STAR_ICON = () => {
 	)
 }
 
+export const BOOKMARK__ICON = () => {
+	return (
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			className="icon icon__bookmark"
+			viewBox="0 0 24 24"
+			strokeWidth="1.5"
+			strokeLinecap="round"
+			strokeLinejoin="round"
+		>
+			<path d="M9 4h6a2 2 0 0 1 2 2v14l-5-3l-5 3v-14a2 2 0 0 1 2 -2" />
+		</svg>
+	)
+}
+
 export const SUN_ICON = () => {
 	return (
 		<svg
