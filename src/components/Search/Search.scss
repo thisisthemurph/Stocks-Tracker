@@ -3,7 +3,10 @@
 .search {
     $border-radius: 0em;
 
+    height: 80px;
+
     &__input {
+        height: 100%;
         border: none;
         background: $-c-background-alt;
         color: white;
