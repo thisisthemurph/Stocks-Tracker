@@ -22,8 +22,7 @@ $transition-speed: 500ms;
         width: 100%;
 
         &.logo {
-            display: none;
-            background: $-c-nav-bg-dark;
+            // background: $-c-nav-bg-dark;
             text-transform: uppercase;
             font-weight: bold;
 
@@ -71,6 +70,14 @@ $transition-speed: 500ms;
             transition: $transition-speed * 1.8;
         }
     }
+
+    &:hover {
+        .logo {
+            .nav__link {
+                filter: grayscale(0%) opacity(1);
+            }
+        }
+    }
 }
 
 @media screen and (min-width: 600px) {
@@ -109,6 +116,7 @@ $transition-speed: 500ms;
 
         .logo {
             display: block;
+            background: $-c-nav-bg-dark;
 
             .nav__link {
                 justify-content: space-around;
@@ -135,11 +143,7 @@ $transition-speed: 500ms;
             }
 
             .logo {
-                background: $-c-nav-bg;
-
                 .nav__link {
-                    filter: grayscale(0%) opacity(1);
-
                     .icon__logo {
                         transform: scaleY(-1.4) scaleX(1.4) rotate(-360deg);
                     }
