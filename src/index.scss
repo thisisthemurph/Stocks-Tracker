@@ -8,8 +8,14 @@
 }
 
 body {
+    --c-nav-bg: rgb(14, 17, 31);
+    --c-nav-bg-alt: rgb(22, 25, 43);
+    --c-nav-bg-dark: rgb(6, 10, 22);
+    --c-nav-font: whitesmoke;
     --nav-width-open: 15rem;
     --nav-width-closed: 5rem;
+
+    --c-scroll-thumb: rgb(91, 94, 108);
 
     font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
         "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
@@ -20,14 +26,14 @@ body {
     overflow-x: hidden;
 
     &::-webkit-scrollbar {
-        width: 0.25rem;
+        width: 0.4rem;
 
         &-track {
-            background: #1e1e24;
+            background: var(--c-nav-bg);
         }
 
         &-thumb {
-            background: #6649b8;
+            background: var(--c-scroll-thumb);
         }
     }
 }

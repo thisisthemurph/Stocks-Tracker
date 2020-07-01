@@ -1,8 +1,4 @@
 $transition-speed: 500ms;
-$-c-nav-bg: rgb(14, 17, 31);
-$-c-nav-bg-alt: rgb(22, 25, 43);
-$-c-nav-bg-dark: rgb(6, 10, 22);
-$-c-nav-font: whitesmoke;
 
 .nav {
     position: fixed;
@@ -10,7 +6,7 @@ $-c-nav-font: whitesmoke;
     left: 0;
     width: 100vw;
 
-    background: $-c-nav-bg;
+    background: var(--c-nav-bg);
 
     &__section {
         display: flex;
@@ -47,14 +43,14 @@ $-c-nav-font: whitesmoke;
         transition: $transition-speed;
 
         &-text {
-            color: $-c-nav-font;
+            color: var(--c-nav-font);
             display: none;
         }
 
         &:hover,
         &:focus {
             filter: grayscale(0%) opacity(1);
-            background: $-c-nav-bg-alt;
+            background: var(--c-nav-bg-alt);
         }
     }
 
@@ -117,7 +113,7 @@ $-c-nav-font: whitesmoke;
 
         .logo {
             display: block;
-            background: $-c-nav-bg-dark;
+            background: var(--c-nav-bg-dark);
 
             .nav__link {
                 justify-content: space-around;
