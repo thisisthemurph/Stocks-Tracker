@@ -28,6 +28,10 @@ $transition-speed: 500ms;
                 transform: scaleY(-1);
             }
         }
+
+        &:last-child {
+            display: none;
+        }
     }
 
     &__link {
@@ -93,6 +97,7 @@ $transition-speed: 500ms;
 
         &__item {
             &:last-child {
+                display: block;
                 margin-top: auto;
             }
         }
