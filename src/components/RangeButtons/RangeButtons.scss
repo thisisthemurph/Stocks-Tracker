@@ -1,23 +1,28 @@
-@import "../../variables.scss";
-
 .range-buttons {
     display: flex;
-    // justify-content: flex-start;
     flex-wrap: wrap;
+    margin-top: 2em;
 
     &__button {
         border: none;
-        color: $-c-background;
-        background: $-c-accent;
-        padding: 0.5em 1em;
+        color: var(--c-background);
+        background: var(--c-background-alt);
+        padding: 1em 1em;
         margin: 0 0.5em 0.5em 0;
         border-radius: 4px;
+        text-transform: uppercase;
         cursor: pointer;
 
-        transition: 200ms ease-in-out;
+        transition: 500ms ease;
 
-        &:hover {
-            background: lighten($-c-accent, 8);
+        &:last-child {
+            text-transform: capitalize;
+        }
+
+        &:hover,
+        &--active {
+            background: var(--c-accent);
+            color: var(--c-font-secondart);
         }
     }
 }

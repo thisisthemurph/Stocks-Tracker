@@ -1,40 +1,31 @@
-@import "../../variables.scss";
-
 .search {
-    $border-radius: 0em;
-
     height: 80px;
 
     &__input {
         height: 100%;
         border: none;
-        background: $-c-background-alt;
-        color: white;
+        background: var(--c-background-alt);
+        color: var(--c-font-primary);
         font-size: 1.2em;
         padding: 1em;
-        border-radius: $border-radius;
         width: 100%;
         outline: none;
     }
 
     &__result-list {
+        position: relative;
+        z-index: 1;
         list-style: none;
         padding: 0;
-        background: $-c-background-alt;
+        background: var(--c-background-alt);
         font-size: 1em;
-        border-radius: $border-radius;
         width: 100%;
     }
 
     &__result {
         &:hover,
         &:focus {
-            background: $-c-active;
-        }
-
-        &:last-child {
-            border-bottom-left-radius: $border-radius;
-            border-bottom-right-radius: $border-radius;
+            background: var(--c-active);
         }
 
         .result-item {
@@ -51,21 +42,21 @@
             cursor: pointer;
 
             &--active {
-                background: $-c-active;
+                background: var(--c-active);
             }
 
             &__symbol,
             &__name,
             &__info {
                 padding: $result-item-padding;
-                color: $-c-font-secondary;
+                color: var(--c-font-secondary);
             }
 
             &__symbol {
                 grid-area: symbol;
                 padding-bottom: $result-item-padding / 2;
                 font-weight: bold;
-                color: $-c-font-primary;
+                color: var(--c-font-primary);
             }
 
             &__name {

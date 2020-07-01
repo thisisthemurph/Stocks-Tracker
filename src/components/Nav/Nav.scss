@@ -1,6 +1,8 @@
-@import "../../variables.scss";
-
 $transition-speed: 500ms;
+$-c-nav-bg: rgb(14, 17, 31);
+$-c-nav-bg-alt: rgb(22, 25, 43);
+$-c-nav-bg-dark: rgb(6, 10, 22);
+$-c-nav-font: whitesmoke;
 
 .nav {
     position: fixed;
@@ -22,7 +24,6 @@ $transition-speed: 500ms;
         width: 100%;
 
         &.logo {
-            // background: $-c-nav-bg-dark;
             text-transform: uppercase;
             font-weight: bold;
 
@@ -38,7 +39,7 @@ $transition-speed: 500ms;
         align-items: center;
         justify-content: center;
         height: 5rem;
-        color: $-c-font-primary;
+        color: var(--c-font-primary);
         text-decoration: none;
         font-size: 1.2rem;
         filter: grayscale(100%) opacity(0.7);
@@ -60,7 +61,7 @@ $transition-speed: 500ms;
     .icon {
         $size: 2rem;
 
-        stroke: $-c-accent;
+        stroke: var(--c-accent);
         width: $size;
         height: $size;
         fill: none;
@@ -83,7 +84,7 @@ $transition-speed: 500ms;
 @media screen and (min-width: 600px) {
     .nav {
         top: 0;
-        width: $nav-width-closed;
+        width: var(--nav-width-closed);
 
         transition: 200ms width ease;
 
@@ -128,7 +129,7 @@ $transition-speed: 500ms;
         }
 
         &:hover {
-            width: $nav-width-open;
+            width: var(--nav-width-open);
 
             .nav__item {
                 &.logo {
@@ -155,7 +156,7 @@ $transition-speed: 500ms;
 
 @media screen and (min-width: 900px) {
     .nav {
-        width: $nav-width-open;
+        width: var(--nav-width-open);
 
         &__link {
             &-text {

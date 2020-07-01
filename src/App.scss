@@ -1,22 +1,84 @@
-@import "./variables.scss";
+.App {
+    --c-background: rgb(40, 44, 52);
+    --c-background-alt: rgb(59, 62, 66);
+    --c-active: rgb(48, 49, 51);
+    --c-accent: rgb(105, 181, 120);
+    --c-accent: gold;
+    --c-font-primary: rgb(196, 196, 196);
+    --c-font-secondary: rgb(158, 158, 158);
 
-.heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2em;
-
-    &__heading {
-        font-size: 1.8em;
-        padding-bottom: 0;
+    &[data-theme="white"] {
+        --c-background: rgb(236, 236, 236);
+        --c-background-alt: rgb(199, 199, 199);
+        --c-active: rgb(163, 163, 163);
+        --c-font-primary: rgb(24, 24, 24);
+        --c-font-secondary: rgb(75, 75, 75);
     }
 
-    &__subheading {
-        color: $-c-font-secondary;
-        font-size: 0.9rem;
+    min-height: 100vh;
+    background: var(--c-background);
+    color: var(--c-font-primary);
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+        font-family: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+            "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        padding: 0 0 0.5em 0;
+    }
+
+    p {
+        line-height: 1.5;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1em;
+    }
+
+    .main {
+        margin-top: 1em;
     }
 
     .btn {
-        align-self: flex-end;
+        border: none;
+        color: var(--c-font-secondary);
+        background: var(--c-background-alt);
+        padding: 0.5em 1em;
+        font-size: 0.8rem;
+        text-transform: capitalize;
+        border-radius: 4px;
+        cursor: pointer;
+
+        transition: 500ms ease;
+
+        &:hover {
+            background: var(--c-accent);
+            color: var(--c-background);
+        }
+    }
+
+    .heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 2em;
+
+        &__heading {
+            font-size: 1.8em;
+            padding-bottom: 0;
+        }
+
+        &__subheading {
+            color: var(--c-font-secondary);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            align-self: flex-end;
+        }
     }
 }

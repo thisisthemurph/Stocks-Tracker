@@ -1,5 +1,3 @@
-@import "../../variables.scss";
-
 .symbol {
     display: grid;
     grid-template-columns: 4fr 2fr;
@@ -7,7 +5,7 @@
     grid-template-areas:
         "symbol info"
         "name info";
-    background: $-c-background-alt;
+    background: var(--c-background-alt);
     padding: 1em;
     margin-bottom: 2em;
     border-radius: 0.5em;
@@ -21,7 +19,7 @@
     &__name {
         grid-area: name;
         padding: 1em 0 0 0;
-        color: $-c-font-secondary;
+        color: var(--c-font-secondary);
     }
 
     &__info {
@@ -29,6 +27,6 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
-        color: $-c-font-secondary;
+        color: var(--c-font-secondary);
     }
 }

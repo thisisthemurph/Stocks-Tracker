@@ -1,5 +1,3 @@
-@import "../../variables.scss";
-
 .heading {
     &__current-price {
         padding: 0.5em 0;
@@ -15,7 +13,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    color: $-c-font-secondary;
+    color: var(--c-font-secondary);
 }
 
 .data-table {
