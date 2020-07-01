@@ -14,6 +14,7 @@ interface Actions {
 	getSettings: () => void
 	resetSettings: () => void
 	updateMaxHistory: (data: number) => void
+	updateTheme: (data: string) => void
 }
 
 type DispatchCallback = (action: Action) => void
@@ -51,5 +52,8 @@ export const useActions = (state: State, dispatch: DispatchCallback): Actions =>
 	},
 	updateMaxHistory: (data: number) => {
 		dispatch({ type: ActionTypes.Update_Settings_MaxHistory, payload: { maxHistory: data } })
+	},
+	updateTheme: (data: string) => {
+		dispatch({ type: ActionTypes.Update_Settings_Theme, payload: { theme: data } })
 	},
 })

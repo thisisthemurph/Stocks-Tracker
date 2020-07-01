@@ -10,6 +10,7 @@ enum ActionTypes {
 	Get_Settings = "GET_SETTINGS",
 	Reset_Settings = "RESET_SETTINGS",
 	Update_Settings_MaxHistory = "UPDATE_SETTINGS_MAXHISTORY",
+	Update_Settings_Theme = "UPDATE_SETTINGS_THEME",
 }
 
 export default ActionTypes

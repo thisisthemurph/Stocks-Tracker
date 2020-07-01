@@ -12,6 +12,7 @@ export interface State {
 export interface Action {
 	type: string
 	payload?: {
+		theme?: string
 		symbol?: string
 		historyItem?: Symbol
 		favourite?: Symbol

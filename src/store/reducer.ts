@@ -102,14 +102,23 @@ const reducer = (state = initialState, action: Action): State => {
 
 		case ActionTypes.Update_Settings_MaxHistory:
 			const newMaxHist = action.payload?.maxHistory
-			const newSettings = {
+			const newHistSettings = {
 				...state.settings,
 				maxHistory:
 					newMaxHist !== undefined ? newMaxHist : initialState.settings.maxHistory,
 			}
 
-			localStorage.setItem(LS_KEYS.Settings, JSON.stringify(newSettings))
-			return { ...state, settings: newSettings }
+			localStorage.setItem(LS_KEYS.Settings, JSON.stringify(newHistSettings))
+			return { ...state, settings: newHistSettings }
+
+		case ActionTypes.Update_Settings_Theme:
+			const newThemeSettings = {
+				...state.settings,
+				theme: action.payload?.theme || initialState.settings.theme,
+			}
+
+			localStorage.setItem(LS_KEYS.Settings, JSON.stringify(newThemeSettings))
+			return { ...state, settings: newThemeSettings }
 
 		case ActionTypes.Reset_Settings:
 			localStorage.removeItem(LS_KEYS.Settings)
