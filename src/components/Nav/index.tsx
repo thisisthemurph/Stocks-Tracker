@@ -25,7 +25,7 @@ const Nav: React.FC = () => {
 					</NavLink>
 				</li>
 				<li className="nav__item">
-					<NavLink to="/" text="Settings">
+					<NavLink to="/settings" text="Settings">
 						<SETTINGS_ICON />
 					</NavLink>
 				</li>

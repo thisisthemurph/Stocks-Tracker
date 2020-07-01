@@ -7,6 +7,9 @@ enum ActionTypes {
 	Add_Favourite = "ADD_FAVOURITES",
 	Remove_Favourite = "REMOVE_FAVOURITE",
 	Clear_Favourites = "CLEAR_FAVOURITES",
+	Get_Settings = "GET_SETTINGS",
+	Reset_Settings = "RESET_SETTINGS",
+	Update_Settings_MaxHistory = "UPDATE_SETTINGS_MAXHISTORY",
 }
 
 export default ActionTypes

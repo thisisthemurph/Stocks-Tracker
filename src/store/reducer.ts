@@ -2,15 +2,19 @@ import ActionTypes from "./actionTypes"
 import { State, Action } from "./types"
 import { Symbol } from "../types"
 
-const HISTORY_MAX_SIZE = 8
-const LS_KEYS = {
-	history: "searchHistory",
-	favourites: "favourites",
+enum LS_KEYS {
+	History = "searchHistory",
+	Favourites = "favourites",
+	Settings = "settings",
 }
 
 const initialState: State = {
 	history: [],
 	favourites: [],
+	settings: {
+		maxHistory: 8,
+		theme: "Night",
+	},
 }
 
 const reducer = (state = initialState, action: Action): State => {
@@ -18,7 +22,7 @@ const reducer = (state = initialState, action: Action): State => {
 
 	switch (action.type) {
 		case ActionTypes.Get_History:
-			return { ...state, history: JSON.parse(localStorage.getItem(LS_KEYS.history) || "[]") }
+			return { ...state, history: JSON.parse(localStorage.getItem(LS_KEYS.History) || "[]") }
 
 		case ActionTypes.Add_History:
 			hist = [...state.history]
@@ -29,13 +33,13 @@ const reducer = (state = initialState, action: Action): State => {
 				if (index > -1) {
 					// Remove the item form current position if already in the history
 					hist.splice(index, 1)
-				} else if (hist.length >= HISTORY_MAX_SIZE) {
+				} else if (hist.length >= state.settings.maxHistory) {
 					// Remove the oldest item if history is full
 					hist.pop()
 				}
 
 				const newHist = [newItem, ...hist]
-				localStorage.setItem(LS_KEYS.history, JSON.stringify(newHist))
+				localStorage.setItem(LS_KEYS.History, JSON.stringify(newHist))
 
 				return { ...state, history: newHist }
 			}
@@ -46,6 +50,7 @@ const reducer = (state = initialState, action: Action): State => {
 			const itemToRemove = action?.payload?.historyItem
 			if (itemToRemove) {
 				hist = state.history.filter((h) => h.symbol !== itemToRemove.symbol)
+				localStorage.setItem(LS_KEYS.History, JSON.stringify(hist))
 
 				return { ...state, history: hist }
 			}
@@ -53,20 +58,20 @@ const reducer = (state = initialState, action: Action): State => {
 			return state
 
 		case ActionTypes.Clear_History:
-			localStorage.removeItem(LS_KEYS.history)
+			localStorage.removeItem(LS_KEYS.History)
 			return { ...state, history: [] }
 
 		case ActionTypes.Get_Favourites:
 			return {
 				...state,
-				favourites: JSON.parse(localStorage.getItem(LS_KEYS.favourites) || "[]"),
+				favourites: JSON.parse(localStorage.getItem(LS_KEYS.Favourites) || "[]"),
 			}
 
 		case ActionTypes.Add_Favourite:
 			const fav = action.payload?.favourite
 			if (fav) {
 				const newFavs = [...state.favourites, fav]
-				localStorage.setItem(LS_KEYS.favourites, JSON.stringify(newFavs))
+				localStorage.setItem(LS_KEYS.Favourites, JSON.stringify(newFavs))
 
 				return { ...state, favourites: newFavs }
 			}
@@ -77,7 +82,7 @@ const reducer = (state = initialState, action: Action): State => {
 			const symbolToRemove = action.payload?.symbol
 			if (symbolToRemove) {
 				const newFavs = state.favourites.filter((fav) => fav.symbol !== symbolToRemove)
-				localStorage.setItem(LS_KEYS.favourites, JSON.stringify(newFavs))
+				localStorage.setItem(LS_KEYS.Favourites, JSON.stringify(newFavs))
 
 				return { ...state, favourites: newFavs }
 			}
@@ -85,8 +90,30 @@ const reducer = (state = initialState, action: Action): State => {
 			return { ...state }
 
 		case ActionTypes.Clear_Favourites:
-			localStorage.removeItem(LS_KEYS.favourites)
+			localStorage.removeItem(LS_KEYS.Favourites)
 			return { ...state, favourites: [] }
+
+		case ActionTypes.Get_Settings:
+			const settings = JSON.parse(
+				localStorage.getItem(LS_KEYS.Settings) || JSON.stringify(initialState.settings)
+			)
+
+			return { ...state, settings: settings }
+
+		case ActionTypes.Update_Settings_MaxHistory:
+			const newMaxHist = action.payload?.maxHistory
+			const newSettings = {
+				...state.settings,
+				maxHistory:
+					newMaxHist !== undefined ? newMaxHist : initialState.settings.maxHistory,
+			}
+
+			localStorage.setItem(LS_KEYS.Settings, JSON.stringify(newSettings))
+			return { ...state, settings: newSettings }
+
+		case ActionTypes.Reset_Settings:
+			localStorage.removeItem(LS_KEYS.Settings)
+			return { ...state, settings: initialState.settings }
 
 		default:
 			return state

@@ -3,6 +3,10 @@ import { Symbol } from "../types"
 export interface State {
 	history: Symbol[]
 	favourites: Symbol[]
+	settings: {
+		maxHistory: number
+		theme: string
+	}
 }
 
 export interface Action {
@@ -11,5 +15,6 @@ export interface Action {
 		symbol?: string
 		historyItem?: Symbol
 		favourite?: Symbol
+		maxHistory?: number
 	}
 }

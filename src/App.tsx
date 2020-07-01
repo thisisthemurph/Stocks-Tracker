@@ -10,6 +10,7 @@ import Search from "./components/Search"
 import Finance from "./components/Finance"
 import History from "./components/History"
 import Favourites from "./components/Favourites"
+import Settings from "./components/Settings"
 
 import "./App.scss"
 
@@ -73,6 +74,9 @@ const App: React.FC = () => {
 							</Route>
 							<Route path="/favourites">
 								<Favourites />
+							</Route>
+							<Route path="/settings">
+								<Settings />
 							</Route>
 							<Route path="/">
 								{chart && symbol && (

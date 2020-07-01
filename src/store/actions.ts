@@ -11,6 +11,9 @@ interface Actions {
 	removeFavourite: (data: string) => void
 	clearFavourites: () => void
 	addFavourite: (data: Symbol) => void
+	getSettings: () => void
+	resetSettings: () => void
+	updateMaxHistory: (data: number) => void
 }
 
 type DispatchCallback = (action: Action) => void
@@ -39,5 +42,14 @@ export const useActions = (state: State, dispatch: DispatchCallback): Actions =>
 	},
 	clearFavourites: () => {
 		dispatch({ type: ActionTypes.Clear_Favourites })
+	},
+	getSettings: () => {
+		dispatch({ type: ActionTypes.Get_Settings })
+	},
+	resetSettings: () => {
+		dispatch({ type: ActionTypes.Reset_Settings })
+	},
+	updateMaxHistory: (data: number) => {
+		dispatch({ type: ActionTypes.Update_Settings_MaxHistory, payload: { maxHistory: data } })
 	},
 })
