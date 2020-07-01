@@ -22,8 +22,6 @@ const Settings: React.FC = () => {
 	const handleOnChange = (
 		event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>
 	) => {
-		console.log(event.target.name)
-
 		switch (event.target.name) {
 			case "Max history":
 				actions.updateMaxHistory(event.target.value)
@@ -74,7 +72,13 @@ const SettingsItem: React.FC<SettingsElement> = ({ label, input, handler }: Sett
 				<label className="settings__label" htmlFor={label}>
 					{label}:
 				</label>
-				<select value={input.value} onChange={handler} name={label}>
+				<select
+					id={label}
+					name={label}
+					className="settings__input"
+					value={input.value}
+					onChange={handler}
+				>
 					{input.options?.map((opt) => (
 						<option key={opt} value={opt}>
 							{opt}
