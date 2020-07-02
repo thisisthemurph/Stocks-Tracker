@@ -1,4 +1,5 @@
 .search {
+    position: relative;
     height: 80px;
 
     &__input {
@@ -73,5 +74,35 @@
 
     &__chart {
         grid-area: chart;
+    }
+
+    &__cancel-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+
+        cursor: pointer;
+        border: none;
+        background: none;
+        opacity: 0;
+
+        .icon {
+            stroke: var(--c-nav-bg);
+            fill: none;
+            opacity: 0.5;
+
+            transition: 250ms opacity ease;
+        }
+
+        &--show {
+            opacity: 1;
+
+            &:hover {
+                .icon {
+                    opacity: 0.9;
+                }
+            }
+        }
     }
 }

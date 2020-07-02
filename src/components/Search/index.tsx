@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
 
 import { Symbol } from "../../types"
-import { search, getFinanceInfo } from "../../api/yahoo-finance"
+import { search } from "../../api/yahoo-finance"
 import { StoreContext } from "../../store/store"
+import { X_ICON } from "../../icons"
 
 import SearchItem from "./SearchItem"
 import "./Search.scss"
@@ -15,6 +16,7 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol | null>>([])
 	const [selectedItem, setSelectedItem] = useState(0)
+	const [showCancelBtn, setShowCancelBtn] = useState(false)
 
 	const { state, actions } = useContext(StoreContext)
 	const { history } = state
@@ -24,33 +26,14 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	}, [])
 
 	const retrieveHistory = () => {
-		// Create a temp list of 'loading' results
 		setSearchResults(history)
-
-		// Once the promise has resolved, we will replace the temp data
-		const histRes = history.map((item) => getFinanceInfo(item.symbol))
-		Promise.all(histRes).then((historyResults) => {
-			setSearchResults([])
-			const searchResltsHistory: Symbol[] = []
-			historyResults.forEach((info, idx) => {
-				if (info !== null) {
-					const meta = info.chart.result[0].meta
-					const symbol: Symbol = {
-						exchange: meta.exchangeName,
-						shortname: history[idx].shortname || "",
-						quoteType: meta.instrumentType,
-						symbol: meta.symbol,
-					}
-					searchResltsHistory.push(symbol)
-				}
-			})
-			setSearchResults(searchResltsHistory)
-		})
+		setShowCancelBtn(true)
 	}
 
 	const handleSearchChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value = event.target.value
 		setSearchText(value)
+		setShowCancelBtn(true)
 
 		const results = await search(value)
 		if (results !== null) {
@@ -96,6 +79,8 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 		if (!event.currentTarget.contains(event.relatedTarget)) {
 			setSearchResults([])
 		}
+
+		setShowCancelBtn(false)
 	}
 
 	const selectResult = (symbol: Symbol) => {
@@ -108,6 +93,18 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	return (
 		<header className="header">
 			<div className="search" onBlur={handleOnBlur}>
+				<button
+					className={`search__cancel-btn${
+						showCancelBtn ? " search__cancel-btn--show" : ""
+					}`}
+					onClick={() => {
+						setSearchText("")
+						setSearchResults([])
+					}}
+				>
+					<X_ICON />
+				</button>
+
 				<input
 					className="search__input"
 					type="search"
