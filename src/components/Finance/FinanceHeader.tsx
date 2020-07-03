@@ -4,6 +4,8 @@ import { BOOKMARK__ICON } from "../../icons"
 
 import { StoreContext } from "../../store/store"
 
+import "./Finance.scss"
+
 interface FinanceHeaderProps {
 	company: Symbol
 	currency: string
@@ -39,15 +41,15 @@ const FinanceHeader: React.FC<FinanceHeaderProps> = ({
 	}
 
 	return (
-		<div className="heading container">
+		<div className="finance-header container">
 			<main>
-				<h1 className="heading__heading">
+				<h1 className="finance-header__heading">
 					{company.shortname} ({company.symbol})
 				</h1>
-				<p className="heading__subheading">
+				<p className="finance-header__subheading">
 					Exchange: {company.exchange} - Currency is {currency}
 				</p>
-				<p className="heading__current-price">{currentPrice || "Not available"}</p>
+				<p className="finance-header__current-price">{currentPrice || "Not available"}</p>
 			</main>
 			<button
 				className={`btn__fav${isFav ? " btn__fav--bookmarked" : ""}`}

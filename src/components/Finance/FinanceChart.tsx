@@ -22,8 +22,8 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 				datasets: [
 					{
 						data: getChartData(),
-						borderColor: "rgba(105, 181, 120, 0.8)",
-						borderWidth: 1,
+						borderColor: "gold",
+						borderWidth: 2,
 						pointRadius: 0,
 					},
 				],
@@ -71,8 +71,8 @@ const FinanceChart: React.FC<ChartProps> = ({ chartData, range, setRange }: Char
 					datasets: [
 						{
 							data: data,
-							borderColor: "rgba(105, 181, 120, 0.8)",
-							borderWidth: 1,
+							borderColor: "gold",
+							borderWidth: 2,
 							pointRadius: 0,
 						},
 					],

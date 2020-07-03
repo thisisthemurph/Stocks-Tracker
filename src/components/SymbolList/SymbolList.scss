@@ -15,6 +15,7 @@
         border-radius: 0.3em;
 
         width: 100%;
+        transition: 250ms ease;
 
         &__symbol {
             grid-area: symbol;
@@ -34,6 +35,10 @@
             align-items: center;
             justify-content: flex-end;
             color: var(--c-font-secondary);
+        }
+
+        &:hover {
+            transform: scale(1.05);
         }
     }
 }

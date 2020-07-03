@@ -4,15 +4,22 @@
         justify-content: space-between;
         align-items: center;
         padding: 0.5em 0;
-
-        &:hover,
-        &:focus-within {
-            background: var(--c-active);
-        }
     }
 
     &__label {
+        font-size: 1.2rem;
+        font-weight: bold;
         color: var(--c-font-secondary);
+        min-width: 10em;
+        text-decoration: dashed;
+    }
+
+    &__info {
+        display: none;
+        margin-right: auto;
+        padding-right: 4em;
+        font-size: 0.9rem;
+        font-style: italic;
     }
 
     &__input {
@@ -22,6 +29,10 @@
         border-radius: 4px;
         background: var(--c-background-alt);
         color: var(--c-font-secondary);
+
+        &:focus-within {
+            box-shadow: -6px 0px rgba(rgb(14, 17, 31), 0.7);
+        }
     }
 
     // Remove spinners for number inputs
@@ -33,5 +44,11 @@
             -webkit-appearance: none;
             margin: 0;
         }
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .settings__info {
+        display: block;
     }
 }

@@ -1,7 +1,11 @@
-.heading {
+@import "../../global.scss";
+
+.finance-header {
+    @include heading;
+
     &__current-price {
-        padding: 0.5em 0;
-        font-size: 2em;
+        margin: 0.5em 0 0 0;
+        font-size: 2rem;
         font-weight: bold;
     }
 }
@@ -17,6 +21,7 @@
 
 .data-table {
     display: flex;
+    color: var(--c-font-secondary);
 
     &__col {
         width: 100%;
@@ -40,13 +45,13 @@
     .icon {
         $size: 2rem;
 
-        stroke: gold;
+        stroke: var(--c-accent);
         fill: none;
         width: $size;
         height: $size;
 
         path {
-            fill: rgb(255, 233, 110);
+            fill: rgba(gold, 0.5);
         }
     }
 

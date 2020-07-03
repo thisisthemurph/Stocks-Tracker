@@ -3,8 +3,9 @@ import React, { useEffect, useContext } from "react"
 import { StoreContext } from "../../store/store"
 import "./Settings.scss"
 
-interface SettingsElement {
+interface SettingsItem {
 	label: string
+	info: string
 	input: { type: string; options?: string[]; value: string | number }
 	handler: (
 		event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>
@@ -32,22 +33,24 @@ const Settings: React.FC = () => {
 		}
 	}
 
-	const settingsItems: SettingsElement[] = [
+	const settingsItems: SettingsItem[] = [
 		{
 			label: "Max history",
+			info: "The maximum number of history items that can be saved",
 			input: { type: "text", value: settings.maxHistory },
 			handler: handleOnChange,
 		},
 		{
 			label: "Theme",
+			info: "Select which theme you prefer to use, the Night or White theme.",
 			input: { type: "select", options: ["Night", "White"], value: settings.theme },
 			handler: handleOnChange,
 		},
 	]
 
 	return (
-		<div className="">
-			<header className="heading container">
+		<div className="container">
+			<header className="heading">
 				<main>
 					<h1 className="heading__heading">Settings & Preferences</h1>
 					<p className="heading__subheading">Set your settings and preferences here</p>
@@ -65,13 +68,14 @@ const Settings: React.FC = () => {
 	)
 }
 
-const SettingsItem: React.FC<SettingsElement> = ({ label, input, handler }: SettingsElement) => {
+const SettingsItem: React.FC<SettingsItem> = ({ label, input, info, handler }: SettingsItem) => {
 	if (input.type === "select")
 		return (
-			<div className="settings__item container">
+			<div className="settings__item">
 				<label className="settings__label" htmlFor={label}>
 					{label}:
 				</label>
+				<p className="settings__info">{info}</p>
 				<select
 					id={label}
 					name={label}
@@ -89,10 +93,11 @@ const SettingsItem: React.FC<SettingsElement> = ({ label, input, handler }: Sett
 		)
 
 	return (
-		<div className="settings__item container">
+		<div className="settings__item">
 			<label className="settings__label" htmlFor={label}>
 				{label}:
 			</label>
+			<p className="settings__info">{info}</p>
 			<input
 				id={label}
 				name={label}

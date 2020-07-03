@@ -17,3 +17,24 @@
         color: var(--btn-c-font-active);
     }
 }
+
+@mixin heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2em;
+
+    &__heading {
+        padding-bottom: 0;
+    }
+
+    &__subheading {
+        color: var(--c-font-secondary);
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        align-self: flex-end;
+        margin-left: 2rem;
+    }
+}
