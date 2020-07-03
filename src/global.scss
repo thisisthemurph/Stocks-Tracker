@@ -1,0 +1,19 @@
+@mixin button {
+    border: none;
+    color: var(--btn-c-font);
+    background: var(--btn-c-background);
+    padding: 1rem 2rem;
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: 500ms ease;
+
+    &:hover,
+    &:focus,
+    &--active {
+        background: var(--btn-c-background-active);
+        color: var(--btn-c-font-active);
+    }
+}

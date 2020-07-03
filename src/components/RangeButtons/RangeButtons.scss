@@ -1,28 +1,19 @@
+@import "../../global.scss";
+
 .range-buttons {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 2em;
+    margin-top: 1em;
 
     &__button {
-        border: none;
-        color: var(--c-background);
-        background: var(--c-background-alt);
-        padding: 1em 1em;
+        @include button;
+
+        flex-grow: 1;
+        min-width: 100px;
         margin: 0 0.5em 0.5em 0;
-        border-radius: 4px;
-        text-transform: uppercase;
-        cursor: pointer;
 
-        transition: 500ms ease;
-
-        &:last-child {
-            text-transform: capitalize;
-        }
-
-        &:hover,
-        &--active {
-            background: var(--c-accent);
-            color: var(--c-font-secondart);
+        &:not(:last-child) {
+            text-transform: uppercase;
         }
     }
 }
