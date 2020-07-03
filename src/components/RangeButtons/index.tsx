@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import "./RangeButtons.scss"
 
 interface Button {
@@ -11,10 +11,21 @@ interface RangeButtonsProps {
 }
 
 const RangeButtons: React.FC<RangeButtonsProps> = ({ buttons }: RangeButtonsProps) => {
+	const [active, setActive] = useState("1d")
+
 	return (
 		<div className="range-buttons">
 			{buttons.map((btn) => (
-				<button key={btn.value} className="range-buttons__button" onClick={btn.onClick}>
+				<button
+					key={btn.value}
+					className={`range-buttons__button${
+						active === btn.value ? " range-buttons__button--active" : ""
+					}`}
+					onClick={() => {
+						btn.onClick()
+						setActive(btn.value)
+					}}
+				>
 					{btn.value}
 				</button>
 			))}
