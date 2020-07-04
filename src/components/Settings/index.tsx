@@ -1,16 +1,9 @@
 import React, { useEffect, useContext } from "react"
 
+import SettingsItem from "./SettingsItem"
+import { SettingsInput } from "./types"
 import { StoreContext } from "../../store/store"
 import "./Settings.scss"
-
-interface SettingsItem {
-	label: string
-	info: string
-	input: { type: string; options?: string[]; value: string | number }
-	handler: (
-		event: React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLInputElement>
-	) => void
-}
 
 const Settings: React.FC = () => {
 	const { state, actions } = useContext(StoreContext)
@@ -33,7 +26,7 @@ const Settings: React.FC = () => {
 		}
 	}
 
-	const settingsItems: SettingsItem[] = [
+	const settingsItems: SettingsInput[] = [
 		{
 			label: "Max history",
 			info: "The maximum number of history items that can be saved",
@@ -64,48 +57,6 @@ const Settings: React.FC = () => {
 					<SettingsItem key={item.label} {...item} />
 				))}
 			</main>
-		</div>
-	)
-}
-
-const SettingsItem: React.FC<SettingsItem> = ({ label, input, info, handler }: SettingsItem) => {
-	if (input.type === "select")
-		return (
-			<div className="settings__item">
-				<label className="settings__label" htmlFor={label}>
-					{label}:
-				</label>
-				<p className="settings__info">{info}</p>
-				<select
-					id={label}
-					name={label}
-					className="settings__input"
-					value={input.value}
-					onChange={handler}
-				>
-					{input.options?.map((opt) => (
-						<option key={opt} value={opt}>
-							{opt}
-						</option>
-					))}
-				</select>
-			</div>
-		)
-
-	return (
-		<div className="settings__item">
-			<label className="settings__label" htmlFor={label}>
-				{label}:
-			</label>
-			<p className="settings__info">{info}</p>
-			<input
-				id={label}
-				name={label}
-				className="settings__input"
-				type={input.type}
-				value={input.value}
-				onChange={handler}
-			/>
 		</div>
 	)
 }
