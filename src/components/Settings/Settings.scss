@@ -1,17 +1,16 @@
 .settings {
     &__item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5em 0;
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        margin-bottom: 1em;
     }
 
     &__label {
-        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+
         font-weight: bold;
         color: var(--c-font-secondary);
-        min-width: 10em;
-        text-decoration: dashed;
     }
 
     &__info {
@@ -23,12 +22,14 @@
     }
 
     &__input {
-        min-width: 250px;
+        width: 100%;
         padding: 1em;
         border: none;
         border-radius: 4px;
         background: var(--c-background-alt);
         color: var(--c-font-secondary);
+
+        outline: none;
 
         &:focus-within {
             box-shadow: -6px 0px rgba(rgb(14, 17, 31), 0.7);
@@ -47,8 +48,14 @@
     }
 }
 
-@media screen and (min-width: 1000px) {
-    .settings__info {
-        display: block;
+@media screen and (min-width: 900px) {
+    .settings {
+        &__item {
+            grid-template-columns: 1fr 2fr 2fr;
+        }
+
+        &__info {
+            display: block;
+        }
     }
 }
