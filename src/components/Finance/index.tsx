@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext, useCallback } from "react"
 import { useParams } from "react-router"
 
 import { getSymbol, getFinanceInfo, getSummary } from "../../api/yahoo-finance"
 import { Symbol, SymbolSummary, FinanceInfo, ChartResult } from "../../types"
+import { StoreContext } from "../../store/store"
 
 import FinanceHeader from "./FinanceHeader"
 import FinanceChart from "./FinanceChart"
@@ -17,6 +18,8 @@ interface ParamTypes {
 
 const Finance: React.FC = () => {
 	const { symbol: symbolParam } = useParams<ParamTypes>()
+
+	const { actions } = useContext(StoreContext)
 
 	const [symbol, setSymbol] = useState<Symbol | null>(null)
 	const [summary, setSummary] = useState<SymbolSummary | null>(null)
@@ -53,6 +56,7 @@ const Finance: React.FC = () => {
 	}, [symbolParam])
 
 	useEffect(() => {
+		actions.addHistoryItem(symbol)
 		;(async () => {
 			const intervalValue = getDefaultIntervalFromRange(range)
 

@@ -22,7 +22,7 @@ const App: React.FC = () => {
 
 	return (
 		<Router>
-			<div className="App" data-theme={settings.theme.toLocaleLowerCase()}>
+			<div className="App" data-theme={settings.theme.toLowerCase()}>
 				<Search />
 				<main className="main">
 					<Switch>

@@ -85,7 +85,6 @@ const Search: React.FC = () => {
 	const selectResult = (symbol: Symbol) => {
 		setSearchText("")
 		setSearchResults([])
-		actions.addHistoryItem(symbol)
 		browserHistory.push(`/${symbol.symbol}`)
 	}
 
