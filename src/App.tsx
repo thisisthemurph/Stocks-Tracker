@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useEffect, useContext } from "react"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import { StoreContext } from "./store/store"
-
-import { Symbol } from "./types"
 
 import Nav from "./components/Nav"
 import Search from "./components/Search"
