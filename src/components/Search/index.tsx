@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react"
+import { useHistory } from "react-router"
 
 import { Symbol } from "../../types"
 import { search } from "../../api/yahoo-finance"
@@ -8,11 +9,9 @@ import { X_ICON } from "../../icons"
 import SearchItem from "./SearchItem"
 import "./Search.scss"
 
-interface SearchProps {
-	registerSymbol: (symbol: Symbol) => void
-}
+const Search: React.FC = () => {
+	const browserHistory = useHistory()
 
-const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	const [searchText, setSearchText] = useState("")
 	const [searchResults, setSearchResults] = useState<Array<Symbol | null>>([])
 	const [selectedItem, setSelectedItem] = useState(0)
@@ -84,10 +83,10 @@ const Search: React.FC<SearchProps> = ({ registerSymbol }: SearchProps) => {
 	}
 
 	const selectResult = (symbol: Symbol) => {
-		registerSymbol(symbol)
 		setSearchText("")
 		setSearchResults([])
 		actions.addHistoryItem(symbol)
+		browserHistory.push(`/${symbol.symbol}`)
 	}
 
 	return (

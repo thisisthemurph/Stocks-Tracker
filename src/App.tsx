@@ -14,8 +14,6 @@ import Settings from "./components/Settings"
 import "./App.scss"
 
 const App: React.FC = () => {
-	const [symbol, setSymbol] = useState<Symbol | null>(null)
-
 	const { state, actions } = useContext(StoreContext)
 	const { settings } = state
 
@@ -26,7 +24,7 @@ const App: React.FC = () => {
 	return (
 		<Router>
 			<div className="App" data-theme={settings.theme.toLocaleLowerCase()}>
-				<Search registerSymbol={(symbol) => setSymbol(symbol)} />
+				<Search />
 				<main className="main">
 					<Switch>
 						<Route path="/history">

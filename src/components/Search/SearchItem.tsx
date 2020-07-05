@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react"
-import SearchChart from "./SearchChart"
+import { Link } from "react-router-dom"
+
 import { Symbol, ChartResult } from "../../types"
 import { getFinanceInfo } from "../../api/yahoo-finance"
+import SearchChart from "./SearchChart"
 
 interface SearchItemProps {
 	symbol: Symbol
@@ -28,9 +30,9 @@ const Search: React.FC<SearchItemProps> = ({ symbol, active, selectResult }: Sea
 
 	return (
 		<li className="search__result" onClick={() => selectResult(symbol)}>
-			<div
+			<Link
+				to={`/${symbol.symbol}`}
 				className={`result-item${active ? " result-item--active" : ""}`}
-				role="link"
 				title={symbol.shortName}
 				tabIndex={0}
 			>
@@ -41,7 +43,7 @@ const Search: React.FC<SearchItemProps> = ({ symbol, active, selectResult }: Sea
 				</span>
 
 				{chartData && <SearchChart chartData={chartData} />}
-			</div>
+			</Link>
 		</li>
 	)
 }
