@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useContext } from "react"
+
 import { Symbol } from "../../types"
 import { BOOKMARK__ICON } from "../../icons"
-
 import { StoreContext } from "../../store/store"
 
 import "./Finance.scss"
 
 interface FinanceHeaderProps {
-	company: Symbol
+	symbol: Symbol
 	currency: string
-	currentPrice: string | undefined
+	currentPrice: string
 }
 
 const FinanceHeader: React.FC<FinanceHeaderProps> = ({
-	company,
+	symbol,
 	currency,
 	currentPrice,
 }: FinanceHeaderProps) => {
@@ -27,14 +27,14 @@ const FinanceHeader: React.FC<FinanceHeaderProps> = ({
 	}, [])
 
 	useEffect(() => {
-		setIsFav(favourites.some((fav) => fav.symbol === company.symbol))
-	}, [favourites, company.symbol])
+		setIsFav(favourites.some((fav) => fav.symbol === symbol.symbol))
+	}, [favourites, symbol.symbol])
 
 	const toggleFavourite = () => {
 		if (isFav) {
-			actions.removeFavourite(company.symbol)
+			actions.removeFavourite(symbol.symbol)
 		} else {
-			actions.addFavourite(company)
+			actions.addFavourite(symbol)
 		}
 
 		setIsFav(!isFav)
@@ -44,10 +44,10 @@ const FinanceHeader: React.FC<FinanceHeaderProps> = ({
 		<div className="finance-header container">
 			<main>
 				<h1 className="finance-header__heading">
-					{company.shortname} ({company.symbol})
+					{symbol.shortName} ({symbol.symbol})
 				</h1>
 				<p className="finance-header__subheading">
-					Exchange: {company.exchange} - Currency is {currency}
+					Exchange: {symbol.exchange} - Currency is {currency}
 				</p>
 				<p className="finance-header__current-price">{currentPrice || "Not available"}</p>
 			</main>

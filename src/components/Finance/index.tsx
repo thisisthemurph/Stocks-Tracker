@@ -1,6 +1,8 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { useParams } from "react-router"
 
-import { Symbol, SymbolSummary, ChartResult } from "../../types"
+import { getSymbol, getFinanceInfo, getSummary } from "../../api/yahoo-finance"
+import { Symbol, SymbolSummary, FinanceInfo, ChartResult } from "../../types"
 
 import FinanceHeader from "./FinanceHeader"
 import FinanceChart from "./FinanceChart"
@@ -9,37 +11,84 @@ import FinanceSummary from "./FinanceSummary"
 
 import "./Finance.scss"
 
-interface FinanceProps {
-	company: Symbol
-	summary: SymbolSummary | null
-	chartData: ChartResult
-	range: string
-	setRange: React.Dispatch<React.SetStateAction<string>>
+interface ParamTypes {
+	symbol: string
 }
 
-const Finance: React.FC<FinanceProps> = ({
-	company,
-	summary,
-	chartData,
-	range,
-	setRange,
-}: FinanceProps) => {
-	const quote = chartData.indicators.quote[0]
-	const open = "open" in quote ? quote.open[0] : null
+const Finance: React.FC = () => {
+	const { symbol: symbolParam } = useParams<ParamTypes>()
 
-	return (
-		<div className="finance">
-			<FinanceHeader
-				company={company}
-				currency={chartData.meta.currency}
-				currentPrice={summary?.financialData.currentPrice.fmt}
-			/>
+	const [symbol, setSymbol] = useState<Symbol | null>(null)
+	const [summary, setSummary] = useState<SymbolSummary | null>(null)
+	const [financeInfo, setFinanceInfo] = useState<FinanceInfo | null>(null)
+	const [chart, setChart] = useState<ChartResult | null>(null)
+	const [range, setRange] = useState("1d")
 
-			<FinanceChart chartData={chartData} range={range} setRange={setRange} />
-			<FinanceStats previousClose={chartData.meta.previousClose} open={open} />
-			{summary && <FinanceSummary summary={summary} />}
-		</div>
-	)
+	const getDefaultIntervalFromRange = (range: string): string => {
+		switch (range) {
+			case "1d":
+				return "2m"
+			case "5d":
+				return "15m"
+			case "1mo":
+				return "30m"
+			case "6mo":
+			case "ytd":
+			case "1y":
+				return "1d"
+			case "5y":
+				return "1wk"
+			default:
+				return "1mo"
+		}
+	}
+
+	useEffect(() => {
+		;(async () => {
+			if (symbolParam) {
+				setSummary(await getSummary(symbolParam))
+				setSymbol(await getSymbol(symbolParam))
+			}
+		})()
+	}, [symbolParam])
+
+	useEffect(() => {
+		;(async () => {
+			const intervalValue = getDefaultIntervalFromRange(range)
+
+			if (symbolParam) {
+				const info = await getFinanceInfo(symbolParam, intervalValue, range)
+				setFinanceInfo(info)
+			}
+		})()
+	}, [symbolParam, symbol, range])
+
+	useEffect(() => {
+		if (financeInfo) {
+			setChart(financeInfo.chart.result[0])
+		}
+	}, [financeInfo])
+
+	if (symbol && chart) {
+		const quote = chart.indicators.quote[0]
+		const open = "open" in quote ? quote.open[0] : null
+
+		return (
+			<div className="finance">
+				<FinanceHeader
+					symbol={symbol}
+					currency={chart.meta.currency}
+					currentPrice={summary?.financialData.currentPrice.fmt || "-"}
+				/>
+
+				<FinanceChart chartData={chart} range={range} setRange={setRange} />
+				<FinanceStats previousClose={chart.meta.previousClose} open={open} />
+				{summary && <FinanceSummary summary={summary} />}
+			</div>
+		)
+	}
+
+	return <p className="container">Loading financial data...</p>
 }
 
 export default Finance
