@@ -8,6 +8,7 @@ import Finance from "./components/Finance"
 import History from "./components/History"
 import Favourites from "./components/Favourites"
 import Settings from "./components/Settings"
+import Home from "./components/Home"
 
 import "./App.scss"
 
@@ -38,7 +39,7 @@ const App: React.FC = () => {
 							<Finance />
 						</Route>
 						<Route path="/">
-							<h1 className="container">Home</h1>
+							<Home />
 						</Route>
 					</Switch>
 				</main>
