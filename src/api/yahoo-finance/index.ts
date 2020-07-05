@@ -16,6 +16,27 @@ export const search = async (value: string): Promise<Symbol[] | null> => {
 	}
 }
 
+export const getSymbol = async (symbol: string): Promise<Symbol | null> => {
+	if (symbol) {
+		try {
+			const data: Symbol | { error: string } = await client(`finance/symbol/${symbol}`)
+
+			if ("error" in data) {
+				console.error("The symbol does not exist")
+				return null
+			}
+
+			return data
+		} catch (err) {
+			console.log("There has been an issue obtaining the Symbol")
+			console.log(err)
+			return null
+		}
+	} else {
+		return null
+	}
+}
+
 export const getFinanceInfo = async (
 	symbol: string,
 	interval: string = "2m",
