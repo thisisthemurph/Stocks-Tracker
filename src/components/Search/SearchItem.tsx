@@ -31,11 +31,11 @@ const Search: React.FC<SearchItemProps> = ({ symbol, active, selectResult }: Sea
 			<div
 				className={`result-item${active ? " result-item--active" : ""}`}
 				role="link"
-				title={symbol.shortname}
+				title={symbol.shortName}
 				tabIndex={0}
 			>
 				<span className="result-item__symbol">{symbol.symbol}</span>
-				<span className="result-item__name">{symbol.shortname}</span>
+				<span className="result-item__name">{symbol.shortName}</span>
 				<span className="result-item__info">
 					{symbol.quoteType} - {symbol.exchange}
 				</span>

@@ -1,9 +1,16 @@
 export interface Symbol {
-	exchange: string
-	shortname: string
-	quoteType: string
-	symbol: string
 	index?: string
+	symbol: string
+	shortName: string
+	longName?: string
+	exchange: string
+	quoteType: string
+	messageBoardId?: string
+	exchangeTimezoneName?: string
+	exchangeTimezoneShortName?: string
+	gmtOffSetMilliseconds?: string
+	market?: string
+	isEsgPopulated?: boolean
 }
 
 interface TradingPeriod {
